@@ -143,6 +143,7 @@ function text(c, s, x, y, o = {}) {
   c.textAlign = o.a || 'left';
   c.textBaseline = o.bl || 'alphabetic';
   if (o.alpha != null) c.globalAlpha *= clamp(o.alpha);
+  if (o.halo) { c.strokeStyle = o.halo; c.lineWidth = o.haloW || 10; c.lineJoin = 'round'; c.strokeText(s, x, y); }
   c.fillText(s, x, y);
   c.restore();
 }
@@ -160,6 +161,14 @@ function fitSize(c, lines, o, maxW, maxS) {
   let w = 0;
   for (const l of lines) w = Math.max(w, measure(c, l, { ...o, s: 100 }));
   return Math.min(maxS, (maxW / w) * 100);
+}
+// Same line count as a greedy wrap at maxW, but with the narrowest measure that keeps it (no widows).
+function wrapBalanced(c, s, o, maxW) {
+  const n = wrapLines(c, s, o, maxW).length;
+  if (n < 2) return [s];
+  let lo = 40, hi = maxW;
+  while (hi - lo > 2) { const m = (lo + hi) / 2; if (wrapLines(c, s, o, m).length > n) lo = m; else hi = m; }
+  return wrapLines(c, s, o, hi);
 }
 // Like fitSize, but exact when letter-spacing is set (tracking is in px and does not scale).
 function fitExact(c, lines, o, maxW, maxS) {

@@ -64,9 +64,9 @@ function buildScore(ac) {
     g.gain.exponentialRampToValueAtTime(Math.max(peak, 0.0002), t + a);
     g.gain.exponentialRampToValueAtTime(0.0001, t + a + d);
   };
-  const nsrc = (t, dur) => {
+  const nsrc = (t, dur, rng = R) => {
     const s = ac.createBufferSource(); s.buffer = noise; s.loop = true;
-    s.start(t, R() * 1.5); s.stop(t + dur + 0.05);
+    s.start(t, rng() * 1.5); s.stop(t + dur + 0.05);
     return s;
   };
 
@@ -198,8 +198,8 @@ function buildScore(ac) {
     o.connect(g); g.connect(pn); pn.connect(master); send(pn, rev, 0.18);
     o.start(t); o.stop(t + 0.15);
   }
-  function tick(t, v = 0.08, f = 4000, dur = 0.008) {
-    const n = nsrc(t, dur + 0.01), hp = filt('highpass', f), g = gainN();
+  function tick(t, v = 0.08, f = 4000, dur = 0.008, rng = R) {
+    const n = nsrc(t, dur + 0.01, rng), hp = filt('highpass', f), g = gainN();
     env(g, t, 0.0008, v, dur);
     n.connect(hp); hp.connect(g); g.connect(master);
   }
@@ -363,8 +363,13 @@ function buildScore(ac) {
   for (let i = 0; i < 20; i++) pop(T(40 + 0.05 + i * 0.03), 1200 + i * 60, 0.025, i / 19 - 0.5);
   [1.0, 1.5, 2.0, 2.5, 3.0, 3.5].forEach(w => { for (let s = 0; s < 5; s++) pluck(T(40 + w) + s * 0.1, 91 + s * 2, 0.018, 0.05, 'sine', s / 4 - 0.5); });
   zap(T(42), 180, 90, 0.6, 0.12, 'sine'); bell(T(42), 76, 0.08, 1.4);
-  const nType = EN ? 19 : 15;
-  for (let i = 1; i <= nType; i++) tick(T(42.55 + (i / nType) * 0.85), 0.05, 3500, 0.005);
+  if (EN) {
+    const rEN = mulberry32(1907);
+    for (let i = 1; i <= 19; i++) tick(T(42.55 + (i / 19) * 0.85), 0.05, 3500, 0.005, rEN);
+    for (let i = 0; i < 15; i++) R(); // keep the shared noise stream aligned with the Arabic score
+  } else {
+    for (let i = 1; i <= 15; i++) tick(T(42.55 + (i / 15) * 0.85), 0.05, 3500, 0.005);
+  }
 
   // 08 — toggle, dial, morphs, robot
   tick(T(44.75), 0.15, 1800, 0.012); zap(T(44.75), 300, 1200, 0.25, 0.05);

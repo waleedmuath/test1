@@ -34,13 +34,21 @@ async function loadFonts() {
   window.captureAudio = async () => wavBase64(await renderScore(48000));
   window.REEL = { W, H, FPS, DUR, RENDER };
   window.READY = true;
-  if (CAPTURE) { renderFrame(+(params.get('t') || 0), 1); return; }
+  const tParam = params.has('t') ? clamp(+params.get('t') || 0, 0, DUR) : null;
+  if (CAPTURE) { renderFrame(tParam ?? 0, 1); return; }
 
   const btn = document.getElementById('play'), scrub = document.getElementById('scrub');
   const tcEl = document.getElementById('tc'), overlay = document.getElementById('overlay');
   let actx = null, audioBuf = null, src = null, playing = false, startAt = 0, offset = 0;
   const cur = () => (playing ? actx.currentTime - startAt : offset);
-  const show = t => { renderFrame(t, 1); scrub.value = t; tcEl.textContent = t.toFixed(2).padStart(5, '0'); };
+  const langLinks = [...document.querySelectorAll('.lang a')];
+  const syncLinks = t => langLinks.forEach(a => {
+    const p = new URLSearchParams(location.search);
+    p.set('lang', a.dataset.lang);
+    p.set('t', t.toFixed(3));
+    a.href = '?' + p.toString();
+  });
+  const show = t => { renderFrame(t, 1); scrub.value = t; tcEl.textContent = t.toFixed(2).padStart(5, '0'); syncLinks(t); };
 
   async function play() {
     if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
@@ -74,13 +82,7 @@ async function loadFonts() {
     show(t);
     requestAnimationFrame(loop);
   }
-  document.querySelectorAll('.lang a').forEach(a => a.addEventListener('click', e => {
-    e.preventDefault();
-    const p = new URLSearchParams(location.search);
-    p.set('lang', a.dataset.lang);
-    p.set('t', cur().toFixed(3));
-    location.search = p.toString();
-  }));
+  langLinks.forEach(a => a.addEventListener('click', () => syncLinks(cur())));
   btn.addEventListener('click', () => (playing ? pause() : play()));
   overlay.addEventListener('click', () => play());
   canvas.addEventListener('click', () => (playing ? pause() : play()));
@@ -94,6 +96,6 @@ async function loadFonts() {
   document.addEventListener('keydown', e => {
     if (e.code === 'Space') { e.preventDefault(); playing ? pause() : play(); }
   });
-  show(params.has('t') ? +params.get('t') : 27.5);
-  offset = 0;
+  show(tParam ?? 27.5);
+  offset = tParam ?? 0;
 })();

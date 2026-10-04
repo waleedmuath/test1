@@ -9,10 +9,10 @@ const DIVS = [
   { n: '01', tEn: ['Client', 'Services'], short: 'Client Services', lEn: 'BUILT TO SPEC · WHITE-LABEL', iEn: ['Websites', 'Apps', 'Smart Systems', 'AI Systems', 'Robotics', 'Brand Identity', 'Social Media & Ad Management'], ar: ['خدمات العملاء'], en: 'CLIENT SERVICES', items: ['مواقع الويب', 'التطبيقات', 'الأنظمة الذكية', 'أنظمة الذكاء الاصطناعي', 'الروبوتات والأنظمة الروبوتية', 'الهوية التجارية', 'إدارة السوشيال ميديا والإعلانات'] },
   { n: '02', tEn: ['Our', 'Products'], short: 'Our Products', lEn: 'APPS · WEBSITES · SOFTWARE', dEn: 'Launched under our name, each with a distinct logo and color.', ar: ['تطبيقاتنا ومواقعنا', 'وبرامجنا'], en: 'OUR APPS, SITES & SOFTWARE', desc: 'منتجات نطلقها باسمنا، بشعار ولون مستقل لكل منتج.' },
   { n: '03', tEn: ['Advertising'], short: 'Advertising', lEn: 'OUTDOOR NETWORK + IN-PRODUCT ADS', iEn: ['Car-Top Screens', 'Branded Bottled Water', 'Building & Outdoor Ads', 'In-App & Website Ads'], ar: ['الإعلانات'], en: 'ADVERTISING', items: ['شاشات أسطح السيارات', 'مياه معبأة بعلامة تجارية', 'إعلانات المباني والخارجية', 'إعلانات داخل التطبيقات والمواقع'] },
-  { n: '04', tEn: ['The Store'], short: 'The Store', lEn: 'PHYSICAL + DIGITAL', dEn: 'An online store for our own products, physical or digital.', ar: ['المتجر'], en: 'THE STORE', desc: 'متجر إلكتروني لمنتجاتنا الخاصة، مادية أو رقمية.' },
-  { n: '05', tEn: ['Cyber', 'Security'], short: 'Cybersecurity', lEn: 'FOR CLIENT PROJECTS + OUR PRODUCTS', iEn: ['Penetration Testing', 'Code & Systems Audit', 'Internal Red Team', 'Compliance & Hardening'], ar: ['الأمن السيبراني'], en: 'CYBERSECURITY', items: ['اختبار الاختراق', 'تدقيق الأكواد والأنظمة', 'الفريق الأحمر الداخلي', 'الامتثال والتحصين'] },
+  { n: '04', tEn: ['The Store'], short: 'The Store', lEn: 'E-COMMERCE', dEn: 'An online store for our own products, physical or digital.', ar: ['المتجر'], en: 'THE STORE', desc: 'متجر إلكتروني لمنتجاتنا الخاصة، مادية أو رقمية.' },
+  { n: '05', tEn: ['Cyber', 'Security'], short: 'Cyber Security', lEn: 'FOR CLIENT PROJECTS + OUR PRODUCTS', iEn: ['Penetration Testing', 'Code & Systems Audit', 'Internal Red Team', 'Compliance & Hardening'], ar: ['الأمن السيبراني'], en: 'CYBERSECURITY', items: ['اختبار الاختراق', 'تدقيق الأكواد والأنظمة', 'الفريق الأحمر الداخلي', 'الامتثال والتحصين'] },
   { n: '06', tEn: ['Summer', 'Bootcamp'], short: 'Summer Bootcamp', lEn: 'EDUCATIONAL PROGRAM', ar: ['المعسكر التعليمي', 'الصيفي'], en: 'SUMMER BOOTCAMP' },
-  { n: '07', tEn: ['Our Own', 'AI Model'], short: 'Our AI Model', lEn: 'BUILT & SHIPPED BY JOFUNCTION', iEn: ['Consumer AI Product'], ar: ['نموذج الذكاء الاصطناعي', 'الخاص بنا'], en: 'OUR OWN AI MODEL', items: ['منتج الذكاء الاصطناعي الاستهلاكي'] },
+  { n: '07', tEn: ['Our Own', 'AI Model'], short: 'Our Own AI Model', lEn: 'BUILT & SHIPPED BY JOFUNCTION', iEn: ['Consumer AI Product'], ar: ['نموذج الذكاء الاصطناعي', 'الخاص بنا'], en: 'OUR OWN AI MODEL', items: ['منتج الذكاء الاصطناعي الاستهلاكي'] },
   { n: '08', tEn: ['Smart', 'Automation'], short: 'Smart Automation', lEn: 'DEVICES FOR HOMES, BUILDINGS & STORES', iEn: ['Home Automation', 'Building & Facility Systems', 'Store & Retail Automation', 'Smart Robots'], ar: ['أتمتة المنازل', 'والمباني والمتاجر'], en: 'HOME · BUILDING · RETAIL AUTOMATION', items: ['أتمتة المنزل', 'أنظمة المباني والمرافق', 'أتمتة المتاجر والتجزئة', 'الروبوتات الذكية'] }
 ];
 
@@ -38,19 +38,19 @@ function divHeader(c, lt, d, st) {
     revealText(c, line, xr, y, { ...to, s: size, c: st.fg }, p);
     if (i < lines.length - 1) y += size * (EN ? 1.04 : 1.2);
   });
-  y += EN ? Math.max(50, size * 0.42) : Math.max(66, size * 0.72);
+  y += EN ? Math.max(50, size * 0.52) : Math.max(66, size * 0.72);
   const pe = prog(b, 0.4, 1.4);
   if (pe > 0) {
     const s = scramble(EN ? d.lEn : d.en, pe, d.n.charCodeAt(1), Math.floor(lt * 24));
-    text(c, s, xr, y, { f: F.mono, w: 500, s: 21, ls: 5, c: st.sub, a: 'right' });
+    text(c, s, xr, y, { f: F.mono, w: 500, s: 21, ls: 5, c: st.sub, a: 'right', halo: EN ? st.bg : undefined });
   }
   y += 34;
   if (EN) {
     if (d.dEn) {
-      const dO = { f: F.plex, w: 400, s: 28, c: st.body || st.sub, a: 'right' };
-      wrapLines(c, d.dEn, dO, 600).forEach((ln, i) => revealText(c, ln, xr, y + 34 + i * 40, dO, ez(b, 0.9 + i * 0.12, 1.6 + i * 0.12, E.outE)));
+      const dO = { f: F.plex, w: 400, s: 28, c: st.body || st.sub, a: 'right', halo: st.bg, haloW: 12 };
+      wrapBalanced(c, d.dEn, dO, 760).forEach((ln, i) => revealText(c, ln, xr, y + 34 + i * 40, dO, ez(b, 0.9 + i * 0.12, 1.6 + i * 0.12, E.outE)));
     }
-    if (d.iEn) chipsLTR(c, d.iEn, xr, y, st.chipW || 780, 1.0, b, st);
+    if (d.iEn) chipsLTR(c, d.iEn, xr, y, st.chipWEn || 700, 1.0, b, st);
     return;
   }
   if (d.desc) {
@@ -498,7 +498,7 @@ function drawD01(c, lt) {
     circle(c, rx, by + bh + 67, 15); c.strokeStyle = C.ink; c.lineWidth = 2; c.stroke();
   }
   c.restore();
-  divHeader(c, lt, d, { fg: C.ink, sub: C.mute, acc: C.orange, chipStroke: C.line, chipC: C.body, chipW: 700, bg: C.paper });
+  divHeader(c, lt, d, { fg: C.ink, sub: C.mute, acc: C.orange, chipStroke: C.line, chipC: C.body, chipW: 700, chipWEn: 560, bg: C.paper });
 }
 function clientLogo(c, x, y, r, k, col) {
   c.fillStyle = col;
@@ -642,7 +642,7 @@ function drawD02(c, lt) {
     c.restore();
   }
   c.restore();
-  divHeader(c, lt, d, { fg: C.paper, sub: C.mute, body: '#B9B3AB', acc: C.orange });
+  divHeader(c, lt, d, { fg: C.paper, sub: C.mute, body: '#B9B3AB', acc: C.orange, bg: C.ink });
 }
 
 /* ==========================================================================
@@ -939,7 +939,7 @@ function drawD04(c, lt) {
     c.restore();
   }
   c.restore();
-  divHeader(c, lt, d, { fg: C.ink, sub: C.mute, body: C.body, acc: C.orange });
+  divHeader(c, lt, d, { fg: C.ink, sub: C.mute, body: C.body, acc: C.orange, bg: C.sand });
 }
 function isoBox(c) {
   const s = 64, k = 0.866;
@@ -1068,7 +1068,7 @@ function drawD05(c, lt) {
     if (n > 0) text(c, s.slice(0, n), 150, 862 + i * 34, { f: F.mono, w: 500, s: 20, c: col });
   });
   c.restore();
-  divHeader(c, lt, d, { fg: C.paper, sub: C.mute, acc: C.orange, chipStroke: rgba(C.orange, 0.6), chipC: C.paper, chipFill: rgba(C.ink, 0.85) });
+  divHeader(c, lt, d, { fg: C.paper, sub: C.mute, acc: C.orange, chipStroke: rgba(C.orange, 0.6), chipC: C.paper, chipFill: rgba(C.ink, 0.85), bg: C.ink });
 }
 
 /* ==========================================================================
@@ -1152,7 +1152,7 @@ function drawD06(c, lt) {
     x += ws[i] + 4;
   });
   c.restore();
-  divHeader(c, lt, d, { fg: C.ink, sub: C.mute, acc: C.orange });
+  divHeader(c, lt, d, { fg: C.ink, sub: C.mute, acc: C.orange, bg: C.paper });
 }
 
 /* ==========================================================================
@@ -1526,7 +1526,7 @@ function drawEnd(c, lt) {
       fillRR(c, x0 + lw + g, 652, 40 * dp, 5, 2.5, C.orange);
     }
     revealText(c, 'Eight divisions. One function.', 960, 780, { f: F.grot, w: 600, s: 56, ls: -1, c: C.ink, a: 'center' }, ez(b, 3.5, 4.3, E.outE));
-    revealText(c, 'CLIENT SERVICES · PRODUCTS · ADVERTISING · STORE · CYBERSECURITY · BOOTCAMP · AI MODEL · AUTOMATION', 960, 834, { f: F.mono, w: 500, s: 14, ls: 2, c: C.body, a: 'center' }, ez(b, 4.0, 4.8, E.outE));
+    revealText(c, 'CLIENT SERVICES · PRODUCTS · ADVERTISING · STORE · CYBER SECURITY · BOOTCAMP · AI MODEL · AUTOMATION', 960, 834, { f: F.mono, w: 500, s: 14, ls: 2, c: C.body, a: 'center' }, ez(b, 4.0, 4.8, E.outE));
   } else {
   // wordmark
   const wo = { f: F.ar, w: 700, s: 150, rtl: true, a: 'right' };
