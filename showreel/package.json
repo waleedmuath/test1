@@ -1,0 +1,14 @@
+{
+  "name": "jofunction-motion-reel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "30-second motion-design showreel for JoFunction, rendered from code.",
+  "scripts": {
+    "serve": "npx --yes http-server -p 8080 -c-1 .",
+    "render": "node tools/render.cjs",
+    "stills": "node tools/stills.cjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.1"
+  }
+}
