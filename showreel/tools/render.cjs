@@ -14,7 +14,8 @@ const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] :
 const AUDIO_ONLY = args.includes('--audio-only');
 const WORKERS = +opt('--workers', 4);
 const SAMPLES = +opt('--samples', 4);
-const LANG = opt('--lang', 'ar') === 'en' ? 'en' : 'ar';
+const LANG = String(opt('--lang', 'ar')).toLowerCase();
+if (!['ar', 'en'].includes(LANG)) { console.error('--lang must be ar or en'); process.exit(1); }
 const QUERY = `capture=1&lang=${LANG}`;
 const OUT = path.resolve(ROOT, opt('--out', LANG === 'en' ? 'out/jofunction-motion-reel-en.mp4' : 'out/jofunction-motion-reel.mp4'));
 const WORK = path.resolve(ROOT, opt('--work', `out/.work-${LANG}`));

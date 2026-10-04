@@ -6,7 +6,11 @@ IBM Plex Sans / Mono / Arabic, and the J/F monogram). It walks through all eight
 divisions from the brand sheet. Every shot uses a different motion technique,
 and every hit is locked to an original 128 BPM score.
 
-**Watch:** [`out/jofunction-motion-reel.mp4`](out/jofunction-motion-reel.mp4) · 1920×1080 · 60 fps · H.264 + AAC · 30.0 s
+**Watch:**
+- Arabic cut: [`out/jofunction-motion-reel.mp4`](out/jofunction-motion-reel.mp4)
+- English cut: [`out/jofunction-motion-reel-en.mp4`](out/jofunction-motion-reel-en.mp4)
+
+Both cuts are 1920×1080, 60 fps, H.264 + AAC, 30.0 s. They share the same shots, timing, transitions and score. Only the on-screen copy changes, and Latin text reads left to right.
 
 ![Storyboard](out/storyboard.jpg)
 
@@ -47,9 +51,10 @@ on the same beat grid as the picture. The mix is normalised to −14 LUFS with a
 
 ```bash
 npm install && npx playwright install chromium   # only needed for rendering
-npm run serve          # then open http://localhost:8080 — interactive player with sound, scrubber, space to play
+npm run serve          # then open http://localhost:8080 — interactive player with sound, scrubber, space to play, AR/EN switch
 npm run render         # → out/jofunction-motion-reel.mp4 (4 parallel workers, ~3–4 min)
-npm run stills -- out/stills 3.4 9.1 24   # full-res stills at given seconds
+npm run render -- --lang en               # → out/jofunction-motion-reel-en.mp4
+npm run stills -- out/stills 3.4 9.1 24   # full-res stills at given seconds (add --lang en for the English cut)
 ```
 
 The page has to be served over HTTP so the local fonts load. Rendering needs `ffmpeg` on the PATH.

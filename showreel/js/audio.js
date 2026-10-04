@@ -363,7 +363,8 @@ function buildScore(ac) {
   for (let i = 0; i < 20; i++) pop(T(40 + 0.05 + i * 0.03), 1200 + i * 60, 0.025, i / 19 - 0.5);
   [1.0, 1.5, 2.0, 2.5, 3.0, 3.5].forEach(w => { for (let s = 0; s < 5; s++) pluck(T(40 + w) + s * 0.1, 91 + s * 2, 0.018, 0.05, 'sine', s / 4 - 0.5); });
   zap(T(42), 180, 90, 0.6, 0.12, 'sine'); bell(T(42), 76, 0.08, 1.4);
-  for (let i = 1; i <= 15; i++) tick(T(42.55 + (i / 15) * 0.85), 0.05, 3500, 0.005);
+  const nType = EN ? 19 : 15;
+  for (let i = 1; i <= nType; i++) tick(T(42.55 + (i / nType) * 0.85), 0.05, 3500, 0.005);
 
   // 08 — toggle, dial, morphs, robot
   tick(T(44.75), 0.15, 1800, 0.012); zap(T(44.75), 300, 1200, 0.25, 0.05);

@@ -7,7 +7,7 @@
 
 const W = 1920, H = 1080, FPS = 60, DUR = 30;
 // Language cut: ?lang=en renders the English version; Arabic is the default.
-const LANG = (() => { try { return new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'ar'; } catch (e) { return 'ar'; } })();
+const LANG = (() => { try { return (new URLSearchParams(location.search).get('lang') || '').toLowerCase() === 'en' ? 'en' : 'ar'; } catch (e) { return 'ar'; } })();
 const EN = LANG === 'en';
 const BPM = 128, B = 60 / BPM, BAR = 4 * B; // 30s = 64 beats = 16 bars
 const TAU = Math.PI * 2;
@@ -160,6 +160,12 @@ function fitSize(c, lines, o, maxW, maxS) {
   let w = 0;
   for (const l of lines) w = Math.max(w, measure(c, l, { ...o, s: 100 }));
   return Math.min(maxS, (maxW / w) * 100);
+}
+// Like fitSize, but exact when letter-spacing is set (tracking is in px and does not scale).
+function fitExact(c, lines, o, maxW, maxS) {
+  let s = Math.min(maxS, fitSize(c, lines, o, maxW, maxS));
+  while (s > 8 && Math.max(...lines.map(l => measure(c, l, { ...o, s }))) > maxW) s -= 1;
+  return s;
 }
 // Line slides up from behind a mask (classic kinetic-type reveal).
 function revealText(c, s, x, y, o, p) {

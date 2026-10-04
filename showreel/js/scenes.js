@@ -6,14 +6,14 @@
    ========================================================================== */
 
 const DIVS = [
-  { n: '01', tEn: ['Client', 'Services'], short: 'Client Services', lEn: 'BUILT TO SPEC · UNDER THEIR BRAND', iEn: ['Websites', 'Apps', 'Smart Systems', 'AI Systems', 'Robots & Robotic Systems', 'Brand Identity', 'Social Media & Ads Management'], ar: ['خدمات العملاء'], en: 'CLIENT SERVICES', items: ['مواقع الويب', 'التطبيقات', 'الأنظمة الذكية', 'أنظمة الذكاء الاصطناعي', 'الروبوتات والأنظمة الروبوتية', 'الهوية التجارية', 'إدارة السوشيال ميديا والإعلانات'] },
-  { n: '02', tEn: ['Our Apps,', 'Sites &', 'Software'], short: 'Our Products', lEn: 'IN-HOUSE PRODUCTS', dEn: 'Products we launch under our own name, each with its own logo and color.', ar: ['تطبيقاتنا ومواقعنا', 'وبرامجنا'], en: 'OUR APPS, SITES & SOFTWARE', desc: 'منتجات نطلقها باسمنا، بشعار ولون مستقل لكل منتج.' },
-  { n: '03', tEn: ['Advertising'], short: 'Advertising', lEn: 'OUTDOOR NETWORK + IN-PRODUCT', iEn: ['Car-Top Screens', 'Branded Bottled Water', 'Building & Outdoor Ads', 'In-App & On-Site Ads'], ar: ['الإعلانات'], en: 'ADVERTISING', items: ['شاشات أسطح السيارات', 'مياه معبأة بعلامة تجارية', 'إعلانات المباني والخارجية', 'إعلانات داخل التطبيقات والمواقع'] },
+  { n: '01', tEn: ['Client', 'Services'], short: 'Client Services', lEn: 'BUILT TO SPEC · WHITE-LABEL', iEn: ['Websites', 'Apps', 'Smart Systems', 'AI Systems', 'Robotics', 'Brand Identity', 'Social Media & Ad Management'], ar: ['خدمات العملاء'], en: 'CLIENT SERVICES', items: ['مواقع الويب', 'التطبيقات', 'الأنظمة الذكية', 'أنظمة الذكاء الاصطناعي', 'الروبوتات والأنظمة الروبوتية', 'الهوية التجارية', 'إدارة السوشيال ميديا والإعلانات'] },
+  { n: '02', tEn: ['Our', 'Products'], short: 'Our Products', lEn: 'APPS · WEBSITES · SOFTWARE', dEn: 'Launched under our name, each with a distinct logo and color.', ar: ['تطبيقاتنا ومواقعنا', 'وبرامجنا'], en: 'OUR APPS, SITES & SOFTWARE', desc: 'منتجات نطلقها باسمنا، بشعار ولون مستقل لكل منتج.' },
+  { n: '03', tEn: ['Advertising'], short: 'Advertising', lEn: 'OUTDOOR NETWORK + IN-PRODUCT ADS', iEn: ['Car-Top Screens', 'Branded Bottled Water', 'Building & Outdoor Ads', 'In-App & Website Ads'], ar: ['الإعلانات'], en: 'ADVERTISING', items: ['شاشات أسطح السيارات', 'مياه معبأة بعلامة تجارية', 'إعلانات المباني والخارجية', 'إعلانات داخل التطبيقات والمواقع'] },
   { n: '04', tEn: ['The Store'], short: 'The Store', lEn: 'PHYSICAL + DIGITAL', dEn: 'An online store for our own products, physical or digital.', ar: ['المتجر'], en: 'THE STORE', desc: 'متجر إلكتروني لمنتجاتنا الخاصة، مادية أو رقمية.' },
-  { n: '05', tEn: ['Cybersecurity'], short: 'Cybersecurity', lEn: 'SECURITY TESTING & HARDENING', iEn: ['Penetration Testing', 'Code & Systems Audit', 'Internal Red Team', 'Compliance & Hardening'], ar: ['الأمن السيبراني'], en: 'CYBERSECURITY', items: ['اختبار الاختراق', 'تدقيق الأكواد والأنظمة', 'الفريق الأحمر الداخلي', 'الامتثال والتحصين'] },
-  { n: '06', tEn: ['Summer', 'Bootcamp'], short: 'Summer Bootcamp', lEn: 'EDUCATIONAL SUMMER CAMP', ar: ['المعسكر التعليمي', 'الصيفي'], en: 'SUMMER BOOTCAMP' },
-  { n: '07', tEn: ['Our Own', 'AI Model'], short: 'Our AI Model', lEn: 'RELEASED UNDER THE JOFUNCTION NAME', iEn: ['Consumer AI Product'], ar: ['نموذج الذكاء الاصطناعي', 'الخاص بنا'], en: 'OUR OWN AI MODEL', items: ['منتج الذكاء الاصطناعي الاستهلاكي'] },
-  { n: '08', tEn: ['Home, Building', '& Retail', 'Automation'], short: 'Automation', lEn: 'AUTOMATION + AI, AS A PRODUCT', iEn: ['Home Automation', 'Building & Facility Systems', 'Store & Retail Automation', 'Smart Robots'], ar: ['أتمتة المنازل', 'والمباني والمتاجر'], en: 'HOME · BUILDING · RETAIL AUTOMATION', items: ['أتمتة المنزل', 'أنظمة المباني والمرافق', 'أتمتة المتاجر والتجزئة', 'الروبوتات الذكية'] }
+  { n: '05', tEn: ['Cyber', 'Security'], short: 'Cybersecurity', lEn: 'FOR CLIENT PROJECTS + OUR PRODUCTS', iEn: ['Penetration Testing', 'Code & Systems Audit', 'Internal Red Team', 'Compliance & Hardening'], ar: ['الأمن السيبراني'], en: 'CYBERSECURITY', items: ['اختبار الاختراق', 'تدقيق الأكواد والأنظمة', 'الفريق الأحمر الداخلي', 'الامتثال والتحصين'] },
+  { n: '06', tEn: ['Summer', 'Bootcamp'], short: 'Summer Bootcamp', lEn: 'EDUCATIONAL PROGRAM', ar: ['المعسكر التعليمي', 'الصيفي'], en: 'SUMMER BOOTCAMP' },
+  { n: '07', tEn: ['Our Own', 'AI Model'], short: 'Our AI Model', lEn: 'BUILT & SHIPPED BY JOFUNCTION', iEn: ['Consumer AI Product'], ar: ['نموذج الذكاء الاصطناعي', 'الخاص بنا'], en: 'OUR OWN AI MODEL', items: ['منتج الذكاء الاصطناعي الاستهلاكي'] },
+  { n: '08', tEn: ['Smart', 'Automation'], short: 'Smart Automation', lEn: 'DEVICES FOR HOMES, BUILDINGS & STORES', iEn: ['Home Automation', 'Building & Facility Systems', 'Store & Retail Automation', 'Smart Robots'], ar: ['أتمتة المنازل', 'والمباني والمتاجر'], en: 'HOME · BUILDING · RETAIL AUTOMATION', items: ['أتمتة المنزل', 'أنظمة المباني والمرافق', 'أتمتة المتاجر والتجزئة', 'الروبوتات الذكية'] }
 ];
 
 /* ---------- division header: number, Arabic title, English label, chips ---------- */
@@ -31,14 +31,14 @@ function divHeader(c, lt, d, st) {
   }
   const to = EN ? { f: F.grot, w: 700, ls: -3, a: 'right' } : { f: F.ar, w: 700, a: 'right', rtl: true };
   const lines = EN ? d.tEn : d.ar;
-  const size = st.size || (EN ? fitSize(c, lines, to, st.maxW || 760, 148) : fitSize(c, lines, to, st.maxW || 800, 124));
+  const size = st.size || (EN ? fitExact(c, lines, to, st.maxW || 760, 132) : fitSize(c, lines, to, st.maxW || 800, 124));
   y += EN ? 26 + size * 0.8 : 30 + size * 0.98;
   lines.forEach((line, i) => {
     const p = ez(b, 0.08 + i * 0.16, 0.85 + i * 0.16, E.outE);
     revealText(c, line, xr, y, { ...to, s: size, c: st.fg }, p);
-    if (i < lines.length - 1) y += size * (EN ? 1.02 : 1.2);
+    if (i < lines.length - 1) y += size * (EN ? 1.04 : 1.2);
   });
-  y += EN ? Math.max(58, size * 0.52) : Math.max(66, size * 0.72);
+  y += EN ? Math.max(50, size * 0.42) : Math.max(66, size * 0.72);
   const pe = prog(b, 0.4, 1.4);
   if (pe > 0) {
     const s = scramble(EN ? d.lEn : d.en, pe, d.n.charCodeAt(1), Math.floor(lt * 24));
@@ -48,7 +48,7 @@ function divHeader(c, lt, d, st) {
   if (EN) {
     if (d.dEn) {
       const dO = { f: F.plex, w: 400, s: 28, c: st.body || st.sub, a: 'right' };
-      wrapLines(c, d.dEn, dO, 760).forEach((ln, i) => revealText(c, ln, xr, y + 34 + i * 40, dO, ez(b, 0.9 + i * 0.12, 1.6 + i * 0.12, E.outE)));
+      wrapLines(c, d.dEn, dO, 600).forEach((ln, i) => revealText(c, ln, xr, y + 34 + i * 40, dO, ez(b, 0.9 + i * 0.12, 1.6 + i * 0.12, E.outE)));
     }
     if (d.iEn) chipsLTR(c, d.iEn, xr, y, st.chipW || 780, 1.0, b, st);
     return;
@@ -102,7 +102,7 @@ function chipsLTR(c, items, xr, ytop, maxW, b0, b, st) {
         c.save();
         c.globalAlpha *= clamp(q * 3);
         scaleAbout(c, x + w / 2, y + h / 2, E.outB2(q));
-        if (st.chipFill) fillRR(c, x, y, w, h, h / 2, st.chipFill);
+        if (st.chipFill || st.bg) fillRR(c, x, y, w, h, h / 2, st.chipFill || st.bg);
         strokeRR(c, x, y, w, h, h / 2, st.chipStroke, 1.5);
         text(c, items[i], x + w / 2, y + h / 2 + 7, { ...o, c: st.chipC, a: 'center' });
         c.restore();
@@ -171,7 +171,8 @@ function drawIntro(c, lt) {
     if (sq > 0 && sq < 1) {
       c.save();
       c.globalAlpha = 1 - sq;
-      strokeRR(c, ic.x - 320 * E.outC(sq), ic.y - 320 * E.outC(sq), ic.s + 640 * E.outC(sq), ic.s + 640 * E.outC(sq), ic.s * 0.24 + 200 * sq, C.ink, 3);
+      const ex = EN ? 230 : 320;
+      strokeRR(c, ic.x - ex * E.outC(sq), ic.y - ex * E.outC(sq), ic.s + 2 * ex * E.outC(sq), ic.s + 2 * ex * E.outC(sq), ic.s * 0.24 + 200 * sq, C.ink, 3);
       c.restore();
     }
   }
@@ -360,7 +361,7 @@ function drawCount(c, lt) {
   const xr = 1800;
   if (EN) {
     const to = { f: F.grot, w: 700, s: 124, ls: -4, c: C.ink, a: 'right' };
-    revealText(c, 'The Eight', xr, 384, to, ez(b, 12.35, 13.2, E.outE));
+    revealText(c, 'Our', xr, 384, to, ez(b, 12.35, 13.2, E.outE));
     revealText(c, 'Divisions', xr, 508, to, ez(b, 12.5, 13.35, E.outE));
     revealText(c, 'Eight divisions. One function.', xr, 590, { f: F.grot, w: 500, s: 46, c: C.ink, a: 'right' }, ez(b, 12.85, 13.7, E.outE));
   } else {
@@ -497,7 +498,7 @@ function drawD01(c, lt) {
     circle(c, rx, by + bh + 67, 15); c.strokeStyle = C.ink; c.lineWidth = 2; c.stroke();
   }
   c.restore();
-  divHeader(c, lt, d, { fg: C.ink, sub: C.mute, acc: C.orange, chipStroke: C.line, chipC: C.body, chipW: 700 });
+  divHeader(c, lt, d, { fg: C.ink, sub: C.mute, acc: C.orange, chipStroke: C.line, chipC: C.body, chipW: 700, bg: C.paper });
 }
 function clientLogo(c, x, y, r, k, col) {
   c.fillStyle = col;
@@ -688,7 +689,7 @@ function adCreative(c, k, x, y, w, h) {
     case 0:
       c.fillStyle = C.paper; c.fillRect(x, y, w, h);
       if (EN) {
-        text(c, 'YOUR AD HERE', x + w / 2, y + h / 2 + 12, { f: F.grot, w: 700, s: 40, ls: -1, c: C.ink, a: 'center' });
+        text(c, 'YOUR BRAND HERE', x + w / 2, y + h / 2 + 12, { f: F.grot, w: 700, s: 36, ls: -1, c: C.ink, a: 'center' });
         text(c, 'AD SPACE AVAILABLE', x + w / 2, y + h - 22, { f: F.mono, w: 600, s: 13, ls: 4, c: C.orange, a: 'center' });
         break;
       }
@@ -819,7 +820,7 @@ function drawD03(c, lt) {
   c.restore();
   c.restore();
   c.restore();
-  divHeader(c, lt, d, { fg: C.ink, sub: rgba(C.ink, 0.7), acc: C.paper, chipStroke: rgba(C.ink, 0.5), chipC: C.ink, y0: 214 });
+  divHeader(c, lt, d, { fg: C.ink, sub: rgba(C.ink, 0.7), acc: C.paper, chipStroke: rgba(C.ink, 0.5), chipC: C.ink, y0: 214, bg: C.orange });
 }
 
 /* ==========================================================================
@@ -1257,7 +1258,7 @@ function drawD07(c, lt) {
     c.restore();
   }
   c.restore();
-  divHeader(c, lt, d, { fg: C.paper, sub: C.mute, acc: C.orange, chipStroke: rgba(C.paper, 0.3), chipC: C.paper });
+  divHeader(c, lt, d, { fg: C.paper, sub: C.mute, acc: C.orange, chipStroke: rgba(C.paper, 0.3), chipC: C.paper, bg: C.ink });
 }
 
 /* ==========================================================================
@@ -1395,7 +1396,7 @@ function drawD08(c, lt) {
     c.restore();
   }
   c.restore();
-  divHeader(c, lt, d, { fg: C.ink, sub: C.mute, acc: C.orange, chipStroke: C.line, chipC: C.body });
+  divHeader(c, lt, d, { fg: C.ink, sub: C.mute, acc: C.orange, chipStroke: C.line, chipC: C.body, bg: C.paper });
 }
 
 /* ==========================================================================
@@ -1510,9 +1511,9 @@ function drawEnd(c, lt) {
   drawIcon(c, 0, 0, size, { bg: C.ink, ps });
   c.restore();
   if (EN) {
-    const eo = { f: F.grot, w: 700, s: 172, ls: -5 };
+    const eo = { f: F.grot, w: 700, s: 156, ls: -4 };
     const e1 = measure(c, 'Jo', eo), e2 = measure(c, 'Function', { ...eo, w: 400 }), xl = 960 - (e1 + e2) / 2;
-    wipeLTR(c, xl, 588, e1 + e2, 172, ez(b, 2.0, 2.9, E.ioC), () => {
+    wipeLTR(c, xl, 588, e1 + e2, 156, ez(b, 2.0, 2.9, E.ioC), () => {
       text(c, 'Jo', xl, 588, { ...eo, c: C.ink });
       text(c, 'Function', xl + e1, 588, { ...eo, w: 400, c: C.deep });
     });
@@ -1525,7 +1526,7 @@ function drawEnd(c, lt) {
       fillRR(c, x0 + lw + g, 652, 40 * dp, 5, 2.5, C.orange);
     }
     revealText(c, 'Eight divisions. One function.', 960, 780, { f: F.grot, w: 600, s: 56, ls: -1, c: C.ink, a: 'center' }, ez(b, 3.5, 4.3, E.outE));
-    revealText(c, 'CLIENT SERVICES · PRODUCTS · ADVERTISING · STORE · SECURITY · BOOTCAMP · AI · AUTOMATION', 960, 834, { f: F.mono, w: 500, s: 15, ls: 3, c: C.body, a: 'center' }, ez(b, 4.0, 4.8, E.outE));
+    revealText(c, 'CLIENT SERVICES · PRODUCTS · ADVERTISING · STORE · CYBERSECURITY · BOOTCAMP · AI MODEL · AUTOMATION', 960, 834, { f: F.mono, w: 500, s: 14, ls: 2, c: C.body, a: 'center' }, ez(b, 4.0, 4.8, E.outE));
   } else {
   // wordmark
   const wo = { f: F.ar, w: 700, s: 150, rtl: true, a: 'right' };

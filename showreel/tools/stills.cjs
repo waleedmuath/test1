@@ -6,10 +6,12 @@ const path = require('path');
 const { openReel } = require('./browser.cjs');
 
 (async () => {
-  let [outDir, ...args] = process.argv.slice(2);
-  const li = args.indexOf('--lang');
-  const lang = li >= 0 ? args[li + 1] : 'ar';
-  if (li >= 0) args.splice(li, 2);
+  const argv = process.argv.slice(2);
+  const li = argv.indexOf('--lang');
+  const lang = String(li >= 0 ? argv.splice(li, 2)[1] : 'ar').toLowerCase();
+  if (!['ar', 'en'].includes(lang)) throw new Error('--lang must be ar or en');
+  const sfx = lang === 'en' ? '-en' : '';
+  const [outDir, ...args] = argv;
   fs.mkdirSync(outDir, { recursive: true });
   const { browser, page } = await openReel({ query: `capture=1&lang=${lang}` });
   if (args[0] === '--sheet') {
@@ -30,14 +32,14 @@ const { openReel } = require('./browser.cjs');
       });
       return sheet.toDataURL('image/png');
     }, { times, cols });
-    const f = path.join(outDir, `sheet_${from}-${to}.png`);
+    const f = path.join(outDir, `sheet_${from}-${to}${sfx}.png`);
     fs.writeFileSync(f, Buffer.from(url.split(',')[1], 'base64'));
     console.log(f);
   } else {
     for (const a of args) {
       const t = Number(a);
       const url = await page.evaluate(t => { renderAt(t, 4); return document.getElementById('c').toDataURL('image/png'); }, t);
-      const f = path.join(outDir, `still_${t.toFixed(3)}.png`);
+      const f = path.join(outDir, `still_${t.toFixed(3)}${sfx}.png`);
       fs.writeFileSync(f, Buffer.from(url.split(',')[1], 'base64'));
       console.log(f);
     }

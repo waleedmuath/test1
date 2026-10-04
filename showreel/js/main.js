@@ -5,7 +5,7 @@ async function loadFonts() {
   const latin = [
     '400 20px "Space Grotesk"', '500 20px "Space Grotesk"', '600 20px "Space Grotesk"', '700 20px "Space Grotesk"',
     '400 20px "IBM Plex Mono"', '500 20px "IBM Plex Mono"', '600 20px "IBM Plex Mono"',
-    '500 20px "IBM Plex Sans"'
+    '400 20px "IBM Plex Sans"', '500 20px "IBM Plex Sans"'
   ];
   const ar = ['400', '500', '600', '700'].map(w => `${w} 20px "IBM Plex Sans Arabic"`);
   await Promise.all([
@@ -26,6 +26,7 @@ async function loadFonts() {
   if (langLink) langLink.setAttribute('aria-current', 'true');
   const canvas = document.getElementById('c');
   await loadFonts();
+  _mcache.clear();
   initEngine(canvas);
 
   window.renderAt = (t, samples = 1) => renderFrame(t, samples);
@@ -73,6 +74,13 @@ async function loadFonts() {
     show(t);
     requestAnimationFrame(loop);
   }
+  document.querySelectorAll('.lang a').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    const p = new URLSearchParams(location.search);
+    p.set('lang', a.dataset.lang);
+    p.set('t', cur().toFixed(3));
+    location.search = p.toString();
+  }));
   btn.addEventListener('click', () => (playing ? pause() : play()));
   overlay.addEventListener('click', () => play());
   canvas.addEventListener('click', () => (playing ? pause() : play()));
