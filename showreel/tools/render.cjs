@@ -3,7 +3,7 @@
 // (motion-blurred, 4 sub-frames @ 180° shutter) from N parallel pages into
 // ffmpeg segments, concatenates them and muxes the audio.
 //
-//   node tools/render.cjs [--audio-only] [--workers 4] [--samples 4] [--out out/jofunction-motion-reel.mp4]
+//   node tools/render.cjs [--lang ar|en] [--audio-only] [--workers 4] [--samples 4] [--out out/jofunction-motion-reel.mp4]
 const fs = require('fs');
 const path = require('path');
 const { spawn, spawnSync, execFileSync } = require('child_process');
@@ -14,8 +14,10 @@ const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] :
 const AUDIO_ONLY = args.includes('--audio-only');
 const WORKERS = +opt('--workers', 4);
 const SAMPLES = +opt('--samples', 4);
-const OUT = path.resolve(ROOT, opt('--out', 'out/jofunction-motion-reel.mp4'));
-const WORK = path.resolve(ROOT, opt('--work', 'out/.work'));
+const LANG = opt('--lang', 'ar') === 'en' ? 'en' : 'ar';
+const QUERY = `capture=1&lang=${LANG}`;
+const OUT = path.resolve(ROOT, opt('--out', LANG === 'en' ? 'out/jofunction-motion-reel-en.mp4' : 'out/jofunction-motion-reel.mp4'));
+const WORK = path.resolve(ROOT, opt('--work', `out/.work-${LANG}`));
 const FPS = 60, DUR = 30, FRAMES = FPS * DUR;
 
 function ffmpeg(argv, stdin = false) {
@@ -41,7 +43,7 @@ async function renderAudio(page) {
 }
 
 async function renderSegment(k, from, to) {
-  const { browser, page } = await openReel();
+  const { browser, page } = await openReel({ query: QUERY });
   const seg = path.join(WORK, `seg_${k}.mp4`);
   const ff = ffmpeg([
     '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'png', '-i', '-',
@@ -66,8 +68,8 @@ async function renderSegment(k, from, to) {
 (async () => {
   fs.mkdirSync(WORK, { recursive: true });
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
-  const { browser, page } = await openReel();
-  console.log('Rendering score…');
+  const { browser, page } = await openReel({ query: QUERY });
+  console.log(`Rendering score… (${LANG})`);
   const wav = await renderAudio(page);
   await browser.close();
   if (AUDIO_ONLY) { console.log(wav); return; }

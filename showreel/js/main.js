@@ -20,6 +20,10 @@ async function loadFonts() {
   const params = new URLSearchParams(location.search);
   const CAPTURE = params.has('capture');
   if (CAPTURE) document.body.classList.add('capture');
+  document.documentElement.lang = LANG;
+  document.title = EN ? 'JoFunction Motion Reel (EN)' : 'JoFunction Motion Reel';
+  const langLink = document.querySelector(`.lang a[data-lang="${LANG}"]`);
+  if (langLink) langLink.setAttribute('aria-current', 'true');
   const canvas = document.getElementById('c');
   await loadFonts();
   initEngine(canvas);

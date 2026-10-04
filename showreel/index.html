@@ -20,6 +20,9 @@
   button { font: inherit; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); background: var(--paper); border: 0; border-radius: 999px; padding: 8px 16px; cursor: pointer; min-width: 84px; }
   button:focus-visible, input:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
   input[type=range] { flex: 1; accent-color: var(--orange); }
+  .lang { display: flex; gap: 4px; }
+  .lang a { color: var(--mute); text-decoration: none; padding: 6px 10px; border-radius: 999px; border: 1px solid #2a2a2d; }
+  .lang a[aria-current] { color: var(--ink); background: var(--orange); border-color: var(--orange); }
   #tc { color: var(--paper); min-width: 44px; text-align: right; font-variant-numeric: tabular-nums; }
   body.capture { padding: 0; display: block; background: #000; }
   body.capture .frame { width: 1920px; }
@@ -39,6 +42,7 @@
     <span id="tc">00.00</span>
     <input id="scrub" type="range" min="0" max="30" step="0.001" value="0" aria-label="Scrub timeline">
     <span>30.00</span>
+    <nav class="lang" aria-label="Language"><a href="?lang=ar" data-lang="ar">عربي</a><a href="?lang=en" data-lang="en">EN</a></nav>
   </div>
   <script src="js/core.js"></script>
   <script src="js/scenes.js"></script>

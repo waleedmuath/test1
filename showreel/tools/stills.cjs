@@ -1,14 +1,17 @@
 'use strict';
-// Usage: node tools/stills.cjs <outDir> <t1> <t2> ...        → one PNG per time
+// Usage: node tools/stills.cjs <outDir> [--lang en] <t1> <t2> ...  → one PNG per time
 //        node tools/stills.cjs <outDir> --sheet <from> <to> <step> [cols]  → contact sheet
 const fs = require('fs');
 const path = require('path');
 const { openReel } = require('./browser.cjs');
 
 (async () => {
-  const [outDir, ...args] = process.argv.slice(2);
+  let [outDir, ...args] = process.argv.slice(2);
+  const li = args.indexOf('--lang');
+  const lang = li >= 0 ? args[li + 1] : 'ar';
+  if (li >= 0) args.splice(li, 2);
   fs.mkdirSync(outDir, { recursive: true });
-  const { browser, page } = await openReel();
+  const { browser, page } = await openReel({ query: `capture=1&lang=${lang}` });
   if (args[0] === '--sheet') {
     const [from, to, step, cols = 6] = args.slice(1).map(Number);
     const times = [];

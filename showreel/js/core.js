@@ -6,6 +6,9 @@
    ========================================================================== */
 
 const W = 1920, H = 1080, FPS = 60, DUR = 30;
+// Language cut: ?lang=en renders the English version; Arabic is the default.
+const LANG = (() => { try { return new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'ar'; } catch (e) { return 'ar'; } })();
+const EN = LANG === 'en';
 const BPM = 128, B = 60 / BPM, BAR = 4 * B; // 30s = 64 beats = 16 bars
 const TAU = Math.PI * 2;
 
@@ -182,6 +185,28 @@ function wipeRTL(c, xr, y, w, sz, p, drawFn, cursorCol = C.orange) {
   c.restore();
   const ca = 1 - prog(p, 0.85, 1);
   if (ca > 0 && p < 1) fillRR(c, xr - w * p - 10, y - sz * 0.95, 10, sz * 1.25, 5, rgba(cursorCol === C.orange ? C.orange : cursorCol, ca));
+}
+// Left-to-right wipe with a trailing orange cursor (for Latin wordmarks).
+function wipeLTR(c, xl, y, w, sz, p, drawFn, cursorCol = C.orange) {
+  if (p <= 0) return;
+  c.save();
+  c.beginPath();
+  c.rect(xl - sz * 0.5, y - sz * 1.3, w * p + sz * 0.5 + 4, sz * 1.9);
+  c.clip();
+  drawFn();
+  c.restore();
+  const ca = 1 - prog(p, 0.85, 1);
+  if (ca > 0 && p < 1) fillRR(c, xl + w * p, y - sz * 0.95, 10, sz * 1.25, 5, rgba(cursorCol, ca));
+}
+function wrapLines(c, s, o, maxW) {
+  const lines = [];
+  let cur = '';
+  for (const word of s.split(' ')) {
+    const t = cur ? cur + ' ' + word : word;
+    if (cur && measure(c, t, o) > maxW) { lines.push(cur); cur = word; } else cur = t;
+  }
+  if (cur) lines.push(cur);
+  return lines;
 }
 const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#/*+<>';
 function scramble(s, p, seed = 0, tq = 0) {

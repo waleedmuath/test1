@@ -6,14 +6,14 @@
    ========================================================================== */
 
 const DIVS = [
-  { n: '01', ar: ['خدمات العملاء'], en: 'CLIENT SERVICES', items: ['مواقع الويب', 'التطبيقات', 'الأنظمة الذكية', 'أنظمة الذكاء الاصطناعي', 'الروبوتات والأنظمة الروبوتية', 'الهوية التجارية', 'إدارة السوشيال ميديا والإعلانات'] },
-  { n: '02', ar: ['تطبيقاتنا ومواقعنا', 'وبرامجنا'], en: 'OUR APPS, SITES & SOFTWARE', desc: 'منتجات نطلقها باسمنا، بشعار ولون مستقل لكل منتج.' },
-  { n: '03', ar: ['الإعلانات'], en: 'ADVERTISING', items: ['شاشات أسطح السيارات', 'مياه معبأة بعلامة تجارية', 'إعلانات المباني والخارجية', 'إعلانات داخل التطبيقات والمواقع'] },
-  { n: '04', ar: ['المتجر'], en: 'THE STORE', desc: 'متجر إلكتروني لمنتجاتنا الخاصة، مادية أو رقمية.' },
-  { n: '05', ar: ['الأمن السيبراني'], en: 'CYBERSECURITY', items: ['اختبار الاختراق', 'تدقيق الأكواد والأنظمة', 'الفريق الأحمر الداخلي', 'الامتثال والتحصين'] },
-  { n: '06', ar: ['المعسكر التعليمي', 'الصيفي'], en: 'SUMMER BOOTCAMP' },
-  { n: '07', ar: ['نموذج الذكاء الاصطناعي', 'الخاص بنا'], en: 'OUR OWN AI MODEL', items: ['منتج الذكاء الاصطناعي الاستهلاكي'] },
-  { n: '08', ar: ['أتمتة المنازل', 'والمباني والمتاجر'], en: 'HOME · BUILDING · RETAIL AUTOMATION', items: ['أتمتة المنزل', 'أنظمة المباني والمرافق', 'أتمتة المتاجر والتجزئة', 'الروبوتات الذكية'] }
+  { n: '01', tEn: ['Client', 'Services'], short: 'Client Services', lEn: 'BUILT TO SPEC · UNDER THEIR BRAND', iEn: ['Websites', 'Apps', 'Smart Systems', 'AI Systems', 'Robots & Robotic Systems', 'Brand Identity', 'Social Media & Ads Management'], ar: ['خدمات العملاء'], en: 'CLIENT SERVICES', items: ['مواقع الويب', 'التطبيقات', 'الأنظمة الذكية', 'أنظمة الذكاء الاصطناعي', 'الروبوتات والأنظمة الروبوتية', 'الهوية التجارية', 'إدارة السوشيال ميديا والإعلانات'] },
+  { n: '02', tEn: ['Our Apps,', 'Sites &', 'Software'], short: 'Our Products', lEn: 'IN-HOUSE PRODUCTS', dEn: 'Products we launch under our own name, each with its own logo and color.', ar: ['تطبيقاتنا ومواقعنا', 'وبرامجنا'], en: 'OUR APPS, SITES & SOFTWARE', desc: 'منتجات نطلقها باسمنا، بشعار ولون مستقل لكل منتج.' },
+  { n: '03', tEn: ['Advertising'], short: 'Advertising', lEn: 'OUTDOOR NETWORK + IN-PRODUCT', iEn: ['Car-Top Screens', 'Branded Bottled Water', 'Building & Outdoor Ads', 'In-App & On-Site Ads'], ar: ['الإعلانات'], en: 'ADVERTISING', items: ['شاشات أسطح السيارات', 'مياه معبأة بعلامة تجارية', 'إعلانات المباني والخارجية', 'إعلانات داخل التطبيقات والمواقع'] },
+  { n: '04', tEn: ['The Store'], short: 'The Store', lEn: 'PHYSICAL + DIGITAL', dEn: 'An online store for our own products, physical or digital.', ar: ['المتجر'], en: 'THE STORE', desc: 'متجر إلكتروني لمنتجاتنا الخاصة، مادية أو رقمية.' },
+  { n: '05', tEn: ['Cybersecurity'], short: 'Cybersecurity', lEn: 'SECURITY TESTING & HARDENING', iEn: ['Penetration Testing', 'Code & Systems Audit', 'Internal Red Team', 'Compliance & Hardening'], ar: ['الأمن السيبراني'], en: 'CYBERSECURITY', items: ['اختبار الاختراق', 'تدقيق الأكواد والأنظمة', 'الفريق الأحمر الداخلي', 'الامتثال والتحصين'] },
+  { n: '06', tEn: ['Summer', 'Bootcamp'], short: 'Summer Bootcamp', lEn: 'EDUCATIONAL SUMMER CAMP', ar: ['المعسكر التعليمي', 'الصيفي'], en: 'SUMMER BOOTCAMP' },
+  { n: '07', tEn: ['Our Own', 'AI Model'], short: 'Our AI Model', lEn: 'RELEASED UNDER THE JOFUNCTION NAME', iEn: ['Consumer AI Product'], ar: ['نموذج الذكاء الاصطناعي', 'الخاص بنا'], en: 'OUR OWN AI MODEL', items: ['منتج الذكاء الاصطناعي الاستهلاكي'] },
+  { n: '08', tEn: ['Home, Building', '& Retail', 'Automation'], short: 'Automation', lEn: 'AUTOMATION + AI, AS A PRODUCT', iEn: ['Home Automation', 'Building & Facility Systems', 'Store & Retail Automation', 'Smart Robots'], ar: ['أتمتة المنازل', 'والمباني والمتاجر'], en: 'HOME · BUILDING · RETAIL AUTOMATION', items: ['أتمتة المنزل', 'أنظمة المباني والمرافق', 'أتمتة المتاجر والتجزئة', 'الروبوتات الذكية'] }
 ];
 
 /* ---------- division header: number, Arabic title, English label, chips ---------- */
@@ -29,21 +29,30 @@ function divHeader(c, lt, d, st) {
     fillRR(c, xr - nw - 18 - pw, y - 13, pw, 5, 2.5, st.acc);
     text(c, '/ 08', xr - nw - 18 - 56 - 16, y, { f: F.mono, w: 400, s: 20, ls: 2, c: st.sub, a: 'right', alpha: ez(b, 0.3, 0.8) });
   }
-  const to = { f: F.ar, w: 700, a: 'right', rtl: true };
-  const size = st.size || fitSize(c, d.ar, to, st.maxW || 800, 124);
-  y += 30 + size * 0.98;
-  d.ar.forEach((line, i) => {
+  const to = EN ? { f: F.grot, w: 700, ls: -3, a: 'right' } : { f: F.ar, w: 700, a: 'right', rtl: true };
+  const lines = EN ? d.tEn : d.ar;
+  const size = st.size || (EN ? fitSize(c, lines, to, st.maxW || 760, 148) : fitSize(c, lines, to, st.maxW || 800, 124));
+  y += EN ? 26 + size * 0.8 : 30 + size * 0.98;
+  lines.forEach((line, i) => {
     const p = ez(b, 0.08 + i * 0.16, 0.85 + i * 0.16, E.outE);
     revealText(c, line, xr, y, { ...to, s: size, c: st.fg }, p);
-    if (i < d.ar.length - 1) y += size * 1.2;
+    if (i < lines.length - 1) y += size * (EN ? 1.02 : 1.2);
   });
-  y += Math.max(66, size * 0.72);
+  y += EN ? Math.max(58, size * 0.52) : Math.max(66, size * 0.72);
   const pe = prog(b, 0.4, 1.4);
   if (pe > 0) {
-    const s = scramble(d.en, pe, d.n.charCodeAt(1), Math.floor(lt * 24));
+    const s = scramble(EN ? d.lEn : d.en, pe, d.n.charCodeAt(1), Math.floor(lt * 24));
     text(c, s, xr, y, { f: F.mono, w: 500, s: 21, ls: 5, c: st.sub, a: 'right' });
   }
   y += 34;
+  if (EN) {
+    if (d.dEn) {
+      const dO = { f: F.plex, w: 400, s: 28, c: st.body || st.sub, a: 'right' };
+      wrapLines(c, d.dEn, dO, 760).forEach((ln, i) => revealText(c, ln, xr, y + 34 + i * 40, dO, ez(b, 0.9 + i * 0.12, 1.6 + i * 0.12, E.outE)));
+    }
+    if (d.iEn) chipsLTR(c, d.iEn, xr, y, st.chipW || 780, 1.0, b, st);
+    return;
+  }
   if (d.desc) {
     const pd = ez(b, 0.9, 1.6, E.outE);
     revealText(c, d.desc, xr, y + 34, { f: F.ar, w: 400, s: 28, c: st.body || st.sub, a: 'right', rtl: true }, pd);
@@ -73,6 +82,36 @@ function chips(c, items, xr, ytop, maxW, b0, b, st) {
   });
 }
 
+function chipsLTR(c, items, xr, ytop, maxW, b0, b, st) {
+  const padX = 20, h = 46, gap = 10, rowGap = 12;
+  const o = { f: F.plex, w: 500, s: 21 };
+  const ws = items.map(it => measure(c, it, o) + padX * 2);
+  const rows = [];
+  let row = [], rw = 0;
+  ws.forEach((w, i) => {
+    const nw = row.length ? rw + gap + w : w;
+    if (row.length && nw > maxW) { rows.push(row); row = [i]; rw = w; } else { row.push(i); rw = nw; }
+  });
+  if (row.length) rows.push(row);
+  rows.forEach((r, ri) => {
+    let x = xr - (r.reduce((a, i) => a + ws[i], 0) + gap * (r.length - 1));
+    const y = ytop + ri * (h + rowGap);
+    r.forEach(i => {
+      const w = ws[i], q = prog(b, b0 + i * 0.16, b0 + i * 0.16 + 0.55);
+      if (q > 0) {
+        c.save();
+        c.globalAlpha *= clamp(q * 3);
+        scaleAbout(c, x + w / 2, y + h / 2, E.outB2(q));
+        if (st.chipFill) fillRR(c, x, y, w, h, h / 2, st.chipFill);
+        strokeRR(c, x, y, w, h, h / 2, st.chipStroke, 1.5);
+        text(c, items[i], x + w / 2, y + h / 2 + 7, { ...o, c: st.chipC, a: 'center' });
+        c.restore();
+      }
+      x += w + gap;
+    });
+  });
+}
+
 /* ==========================================================================
    INTRO  (beats 0–12)  dot → logo construction → icon → lockup → zoom-through
    ========================================================================== */
@@ -90,6 +129,14 @@ function introIcon(c, b) {
 let _lock = null;
 function lockup(c) {
   if (_lock) return _lock;
+  if (EN) {
+    const eo = { f: F.grot, w: 700, s: 168, ls: -4 };
+    const w1 = measure(c, 'Jo', eo), w2 = measure(c, 'Function', { ...eo, w: 400 });
+    const ww = w1 + w2, is = 250, gap = 64;
+    const x0 = 960 - (is + gap + ww) / 2;
+    _lock = { w1, w2, ww, is, ix: x0, iy: 540 - is / 2, xl: x0 + is + gap, base: 572 };
+    return _lock;
+  }
   const wo = { f: F.ar, w: 700, s: 176, rtl: true };
   const w1 = measure(c, 'جو', wo), w2 = measure(c, 'فنكشن', { ...wo, w: 400 });
   const ww = w1 + w2, is = 250, gap = 70;
@@ -254,7 +301,16 @@ function drawIntro(c, lt) {
   }
 
   // --- phase C: Arabic wordmark lockup (beats 9.5–11)
-  if (b > 9.4) {
+  if (b > 9.4 && EN) {
+    const eo = { f: F.grot, w: 700, s: 168, ls: -4 };
+    wipeLTR(c, L.xl, L.base, L.ww, 168, ez(b, 9.55, 10.5, E.ioC), () => {
+      text(c, 'Jo', L.xl, L.base, { ...eo, c: C.ink });
+      text(c, 'Function', L.xl + L.w1, L.base, { ...eo, w: 400, c: C.deep });
+    });
+    revealText(c, 'Digital Services', L.xl + 4, L.base + 70, { f: F.grot, w: 500, s: 44, c: C.gray }, ez(b, 10.0, 10.8, E.outE));
+    const jl = 'EIGHT DIVISIONS', jo = { f: F.mono, w: 500, s: 18, ls: 10, c: C.mute };
+    text(c, jl.slice(0, Math.floor(jl.length * prog(b, 10.3, 10.9))), L.xl + 6, L.base - 158, jo);
+  } else if (b > 9.4) {
     const wo = { f: F.ar, w: 700, s: 176, rtl: true, a: 'right' };
     wipeRTL(c, L.xr, L.base, L.ww, 176, ez(b, 9.55, 10.5, E.ioC), () => {
       text(c, 'جو', L.xr, L.base, { ...wo, c: C.ink });
@@ -302,14 +358,21 @@ function drawCount(c, lt) {
   });
   // titles
   const xr = 1800;
+  if (EN) {
+    const to = { f: F.grot, w: 700, s: 124, ls: -4, c: C.ink, a: 'right' };
+    revealText(c, 'The Eight', xr, 384, to, ez(b, 12.35, 13.2, E.outE));
+    revealText(c, 'Divisions', xr, 508, to, ez(b, 12.5, 13.35, E.outE));
+    revealText(c, 'Eight divisions. One function.', xr, 590, { f: F.grot, w: 500, s: 46, c: C.ink, a: 'right' }, ez(b, 12.85, 13.7, E.outE));
+  } else {
   revealText(c, 'الأقسام الثمانية', xr, 470, { f: F.ar, w: 700, s: 124, c: C.ink, a: 'right', rtl: true }, ez(b, 12.35, 13.2, E.outE));
   revealText(c, 'ثمانية أقسام. وظيفة واحدة.', xr, 572, { f: F.ar, w: 500, s: 52, c: C.ink, a: 'right', rtl: true }, ez(b, 12.85, 13.7, E.outE));
-  const en = 'EIGHT DIVISIONS · ONE FUNCTION', eo = { f: F.mono, w: 500, s: 21, ls: 6, c: C.ink };
+  }
+  const en = EN ? 'JOFUNCTION — DIVISION INDEX' : 'EIGHT DIVISIONS · ONE FUNCTION', eo = { f: F.mono, w: 500, s: 21, ls: 6, c: C.ink };
   const ew = measure(c, en, eo);
-  text(c, en.slice(0, Math.floor(en.length * prog(b, 13.3, 14.2))), xr - ew, 640, { ...eo, alpha: 0.8 });
+  text(c, en.slice(0, Math.floor(en.length * prog(b, 13.3, 14.2))), xr - ew, EN ? 650 : 640, { ...eo, alpha: 0.8 });
   // 8 loading pills, filling right-to-left on 16ths
   for (let i = 0; i < 8; i++) {
-    const x = xr - 52 - i * 62, y = 712;
+    const x = xr - 52 - (EN ? 7 - i : i) * 62, y = 712;
     const ap = ez(b, 13.6 + i * 0.05, 14.0 + i * 0.05, E.outB2);
     if (ap <= 0) continue;
     c.save(); scaleAbout(c, x + 26, y + 8, ap);
@@ -624,12 +687,22 @@ function adCreative(c, k, x, y, w, h) {
   switch (k % 3) {
     case 0:
       c.fillStyle = C.paper; c.fillRect(x, y, w, h);
+      if (EN) {
+        text(c, 'YOUR AD HERE', x + w / 2, y + h / 2 + 12, { f: F.grot, w: 700, s: 40, ls: -1, c: C.ink, a: 'center' });
+        text(c, 'AD SPACE AVAILABLE', x + w / 2, y + h - 22, { f: F.mono, w: 600, s: 13, ls: 4, c: C.orange, a: 'center' });
+        break;
+      }
       text(c, 'إعلانك هنا', x + w / 2, y + h / 2 + 8, { f: F.ar, w: 700, s: 46, c: C.ink, a: 'center', rtl: true });
       text(c, 'YOUR AD HERE', x + w / 2, y + h - 22, { f: F.mono, w: 600, s: 13, ls: 4, c: C.orange, a: 'center' });
       break;
     case 1:
       c.fillStyle = C.ink; c.fillRect(x, y, w, h);
       bottle(c, x + 70, y + h / 2 + 4, 0.9);
+      if (EN) {
+        text(c, 'WATER', x + w - 36, y + h / 2 + 8, { f: F.grot, w: 700, s: 46, c: C.paper, a: 'right' });
+        text(c, 'FREE · BRANDED', x + w - 36, y + h / 2 + 40, { f: F.mono, w: 600, s: 12, ls: 3, c: C.orange, a: 'right' });
+        break;
+      }
       text(c, 'مياه', x + w - 36, y + h / 2 + 4, { f: F.ar, w: 700, s: 50, c: C.paper, a: 'right', rtl: true });
       text(c, 'BRANDED WATER', x + w - 36, y + h / 2 + 40, { f: F.mono, w: 600, s: 12, ls: 3, c: C.orange, a: 'right' });
       break;
@@ -736,7 +809,7 @@ function drawD03(c, lt) {
   strokeRR(c, -122, 704, 244, 70, 12, C.paper, 3);
   c.save();
   c.beginPath(); c.rect(-112, 712, 224, 54); c.clip();
-  const segs = [['إعلانك هنا', { f: F.ar, w: 700, s: 30, rtl: true, c: C.orange }], ['•', { f: F.grot, w: 700, s: 24, c: C.paper }], ['YOUR AD HERE', { f: F.grot, w: 700, s: 26, c: C.paper }], ['•', { f: F.grot, w: 700, s: 24, c: C.paper }]];
+  const segs = EN ? [['YOUR AD HERE', { f: F.grot, w: 700, s: 26, c: C.orange }], ['•', { f: F.grot, w: 700, s: 24, c: C.paper }], ['ADVERTISE WITH US', { f: F.grot, w: 700, s: 26, c: C.paper }], ['•', { f: F.grot, w: 700, s: 24, c: C.paper }]] : [['إعلانك هنا', { f: F.ar, w: 700, s: 30, rtl: true, c: C.orange }], ['•', { f: F.grot, w: 700, s: 24, c: C.paper }], ['YOUR AD HERE', { f: F.grot, w: 700, s: 26, c: C.paper }], ['•', { f: F.grot, w: 700, s: 24, c: C.paper }]];
   const sw = segs.map(s => measure(c, s[0], s[1]) + 22);
   const tot = sw.reduce((a, v) => a + v, 0);
   let mx = -112 - ((lt * 240) % tot);
@@ -839,7 +912,8 @@ function drawD04(c, lt) {
       if (q > 0 && q < 1) fillCircle(c, cx + 22, 944, 230 * E.outC(q), rgba(C.paper, 0.28 * (1 - q)));
     });
     c.restore();
-    text(c, 'أضف إلى السلة', cx, 950, { f: F.ar, w: 600, s: 28, c: C.paper, a: 'center', rtl: true });
+    if (EN) text(c, 'Add to Cart', cx, 950, { f: F.grot, w: 600, s: 28, c: C.paper, a: 'center' });
+    else text(c, 'أضف إلى السلة', cx, 950, { f: F.ar, w: 600, s: 28, c: C.paper, a: 'center', rtl: true });
     c.restore();
   }
   // flying dots to cart
@@ -1168,10 +1242,17 @@ function drawD07(c, lt) {
     const chars = [...s];
     const n = Math.floor(chars.length * prog(b, 2.55, 3.4));
     const shown = chars.slice(0, n).join('');
-    text(c, shown, 920, 807, o);
-    if (Math.floor(lt * 4) % 2 === 0 || b < 3.4) {
-      const w = measure(c, shown, o);
-      c.fillStyle = C.orange; c.fillRect(920 - w - 8, 780, 3, 34);
+    if (EN) {
+      const eo = { f: F.grot, w: 500, s: 30, c: C.ink };
+      const es = 'How can I help you?'.slice(0, Math.floor(19 * prog(b, 2.55, 3.4)));
+      text(c, es, 602, 807, eo);
+      if (Math.floor(lt * 4) % 2 === 0 || b < 3.4) { c.fillStyle = C.orange; c.fillRect(602 + measure(c, es, eo) + 6, 780, 3, 34); }
+    } else {
+      text(c, shown, 920, 807, o);
+      if (Math.floor(lt * 4) % 2 === 0 || b < 3.4) {
+        const w = measure(c, shown, o);
+        c.fillStyle = C.orange; c.fillRect(920 - w - 8, 780, 3, 34);
+      }
     }
     c.restore();
   }
@@ -1371,14 +1452,16 @@ function drawWall(c, lt) {
     } else {
       fillRR(c, 0, 0, WALL.tw, WALL.th, 14, C.orange);
       text(c, DIVS[k].n, WALL.tw - 26, 140, { f: F.grot, w: 700, s: 124, ls: -4, c: C.ink, a: 'right' });
-      text(c, DIVS[k].ar[0], WALL.tw - 28, WALL.th - 26, { f: F.ar, w: 600, s: 24, c: C.ink, a: 'right', rtl: true });
+      if (EN) text(c, DIVS[k].short, WALL.tw - 28, WALL.th - 26, { f: F.grot, w: 600, s: 24, c: C.ink, a: 'right' });
+      else text(c, DIVS[k].ar[0], WALL.tw - 28, WALL.th - 26, { f: F.ar, w: 600, s: 24, c: C.ink, a: 'right', rtl: true });
       fillRR(c, 26, 26, 40, 5, 2.5, C.ink);
     }
     c.restore();
     // captions under tiles
     const ca = ez(b, 1.2 + k * 0.06, 1.8 + k * 0.06) * (1 - ez(b, 5.6, 6.0, E.lin));
     if (ca > 0) {
-      text(c, DIVS[k].ar[0], r.x + WALL.tw, r.y + WALL.th + 36, { f: F.ar, w: 500, s: 19, c: C.paper, a: 'right', rtl: true, alpha: ca * 0.85 });
+      if (EN) text(c, DIVS[k].short, r.x + WALL.tw, r.y + WALL.th + 35, { f: F.grot, w: 500, s: 19, c: C.paper, a: 'right', alpha: ca * 0.85 });
+      else text(c, DIVS[k].ar[0], r.x + WALL.tw, r.y + WALL.th + 36, { f: F.ar, w: 500, s: 19, c: C.paper, a: 'right', rtl: true, alpha: ca * 0.85 });
       text(c, DIVS[k].n, r.x, r.y + WALL.th + 34, { f: F.mono, w: 600, s: 15, ls: 2, c: C.orange, alpha: ca });
     }
   }
@@ -1426,6 +1509,24 @@ function drawEnd(c, lt) {
   c.translate(960, cy); c.rotate(rot);
   drawIcon(c, 0, 0, size, { bg: C.ink, ps });
   c.restore();
+  if (EN) {
+    const eo = { f: F.grot, w: 700, s: 172, ls: -5 };
+    const e1 = measure(c, 'Jo', eo), e2 = measure(c, 'Function', { ...eo, w: 400 }), xl = 960 - (e1 + e2) / 2;
+    wipeLTR(c, xl, 588, e1 + e2, 172, ez(b, 2.0, 2.9, E.ioC), () => {
+      text(c, 'Jo', xl, 588, { ...eo, c: C.ink });
+      text(c, 'Function', xl + e1, 588, { ...eo, w: 400, c: C.deep });
+    });
+    const dp = ez(b, 2.75, 3.5, E.outE);
+    if (dp > 0) {
+      const lo = { f: F.grot, w: 600, s: 22, ls: 9, c: C.ink }, lw = measure(c, 'DIGITAL SERVICES', lo), g = 30;
+      const x0 = 960 - lw / 2;
+      fillRR(c, x0 - g - 40 * dp, 652, 40 * dp, 5, 2.5, C.orange);
+      revealText(c, 'DIGITAL SERVICES', x0 + 4, 664, lo, dp);
+      fillRR(c, x0 + lw + g, 652, 40 * dp, 5, 2.5, C.orange);
+    }
+    revealText(c, 'Eight divisions. One function.', 960, 780, { f: F.grot, w: 600, s: 56, ls: -1, c: C.ink, a: 'center' }, ez(b, 3.5, 4.3, E.outE));
+    revealText(c, 'CLIENT SERVICES · PRODUCTS · ADVERTISING · STORE · SECURITY · BOOTCAMP · AI · AUTOMATION', 960, 834, { f: F.mono, w: 500, s: 15, ls: 3, c: C.body, a: 'center' }, ez(b, 4.0, 4.8, E.outE));
+  } else {
   // wordmark
   const wo = { f: F.ar, w: 700, s: 150, rtl: true, a: 'right' };
   const w1 = measure(c, 'جو', wo), w2 = measure(c, 'فنكشن', { ...wo, w: 400 }), ww = w1 + w2;
@@ -1446,6 +1547,7 @@ function drawEnd(c, lt) {
   }
   revealText(c, 'ثمانية أقسام. وظيفة واحدة.', 960, 780, { f: F.ar, w: 600, s: 54, c: C.ink, a: 'center', rtl: true }, ez(b, 3.5, 4.3, E.outE));
   revealText(c, 'Eight divisions. One function.', 960, 836, { f: F.grot, w: 500, s: 30, c: C.body, a: 'center' }, ez(b, 4.0, 4.8, E.outE));
+  }
   // footer, echoing the brand sheet
   const fq = ez(b, 4.6, 5.5, E.ioC);
   if (fq > 0) {
