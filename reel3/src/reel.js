@@ -20,7 +20,8 @@ export const T = {
   overview: 20.0,
   recall: 21.2,
   fuse: 23.86,
-  impact: 24.0
+  impact: 24.0,
+  flourish: 28.0
 };
 export const LOGO_CENTER = new THREE.Vector3(0, LOGO_LIFT + LOGO_SIZE / 2, 0);
 
@@ -115,7 +116,21 @@ export function buildReel(stage) {
     const dr = Math.min(T.fuse - 0.02 - tr, 1.25 + r3 * 0.4);
     P.to(i, tr, dr, packState[i], { ease: cubic(0.45, 0, 0.2, 1), arc: [(r1 - 0.5) * 8, 7 + r3 * 7, (r2 - 0.5) * 8], smear: 0.025 });
     P.to(i, T.fuse, T.impact - T.fuse, fused[i], { ease: ease.in2 });
-    P.set(i, T.impact, { ...fused[i], h: 0, len: 0, dep: 0 });
+    if (i % 3 === 0) {
+      const f0 = fused[i], c = LOGO_CENTER;
+      const dir = new THREE.Vector3(f0.p[0] - c.x, f0.p[1] - c.y, 0).normalize();
+      dir.x += (R() - 0.5) * 0.6; dir.y += (R() - 0.5) * 0.6; dir.z = (R() - 0.5) * 1.2 + 0.25;
+      dir.normalize();
+      const dist = 4 + R() ** 1.6 * 13, life = 1.2 + R() * 2.0, spin = (R() - 0.5) * 9;
+      const drift = (R() - 0.5) * 0.5, col = R() < 0.3 ? linear(C.orange) : f0.col;
+      P.set(i, T.impact, t => {
+        const a = t - T.impact;
+        const k = 1 - Math.exp(-a * 3.2);
+        const size = Math.max(0, 1 - a / life) ** 0.7;
+        const q = f0.q.clone().multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(spin * k * 0.3, spin * k * 0.2, spin * k)));
+        return { ...f0, p: [f0.p[0] + dir.x * dist * k + drift * a, f0.p[1] + dir.y * dist * k + 0.25 * a, f0.p[2] + dir.z * dist * k], q, h: f0.h * size, len: f0.len * size, dep: f0.dep * size, col, glow: col === f0.col ? 0 : 0.3 };
+      });
+    } else P.set(i, T.impact, { ...fused[i], h: 0, len: 0, dep: 0 });
   }
   // group highlight: wedges light up one by one, then the whole icon flares before the burst
   const glowStart = k => T.groups + k * (BEAT / 8);
@@ -123,7 +138,7 @@ export function buildReel(stage) {
   P.post = (i, t, s) => {
     if (t < T.groups - 0.05 || t > T.burst + 0.6) return s;
     const k = group[i];
-    const g = 2.6 * decay(t - glowStart(k), 7) * (t >= glowStart(k) ? 1 : 0) + 1.5 * ez(t, T.burst - 0.12, T.burst, ease.in2) * decay(t - T.burst, 5);
+    const g = 2.6 * decay(t - glowStart(k), 7) * (t >= glowStart(k) ? 1 : 0) + 0.9 * ez(t, T.burst - 0.12, T.burst, ease.in2) * decay(t - T.burst, 5);
     if (g < 0.01) return s;
     const m = clamp(g * 0.6);
     return { ...s, glow: s.glow + g, col: [lerp(s.col[0], orange[0], m), lerp(s.col[1], orange[1], m), lerp(s.col[2], orange[2], m)] };
@@ -141,7 +156,9 @@ export function buildReel(stage) {
   for (let i = 0; i < DUST; i++) { dustSeed[i * 4] = R(); dustSeed[i * 4 + 1] = R(); dustSeed[i * 4 + 2] = R(); dustSeed[i * 4 + 3] = R(); }
   const dustPos = new Float32Array(DUST * 3);
   dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
-  const dustMat = new THREE.PointsMaterial({ color: new THREE.Color(1.6, 1.25, 1.0), size: 0.07, sizeAttenuation: true, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending });
+  const dot = document.createElement('canvas'); dot.width = dot.height = 32;
+  { const g = dot.getContext('2d'); const gr = g.createRadialGradient(16, 16, 0, 16, 16, 16); gr.addColorStop(0, '#fff'); gr.addColorStop(0.45, 'rgba(255,255,255,0.8)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(0, 0, 32, 32); }
+  const dustMat = new THREE.PointsMaterial({ map: new THREE.CanvasTexture(dot), color: new THREE.Color(1.6, 1.25, 1.0), size: 0.11, sizeAttenuation: true, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending });
   const dust = new THREE.Points(dustGeo, dustMat);
   dust.frustumCulled = false;
   scene.add(dust);
@@ -166,11 +183,9 @@ export function buildReel(stage) {
     return { pos, look, fov: 30 };
   };
   const overviewShot = t => {
-    const a = -0.75 + (t - 19.7) * 0.16;
-    const right = new THREE.Vector3(-Math.cos(a), 0, -Math.sin(a));
-    const look = right.clone().multiplyScalar(9).add(new THREE.Vector3(0, 1.5, 0));
-    const pos = new THREE.Vector3(Math.sin(a) * 58, 36 - (t - 20) * 1.5, -Math.cos(a) * 58).add(right.multiplyScalar(9));
-    return { pos, look, fov: 38 };
+    const az = -0.42 + (t - 19.7) * 0.085, el = 0.98, d = 112 - (t - 19.7) * 3.0;
+    const pos = new THREE.Vector3(Math.sin(az) * Math.cos(el) * d, Math.sin(el) * d, -Math.cos(az) * Math.cos(el) * d);
+    return { pos, look: new THREE.Vector3(0, -3.5, 0), fov: 34 };
   };
   const lockShot = t => {
     const u = clamp((t - T.impact) / 6);
@@ -225,6 +240,7 @@ export function buildReel(stage) {
 
   /* ---------- per-frame ---------- */
   const tmpColor = new THREE.Color();
+  const pulseBar = (j, t) => { const tp = T.flourish + j * BEAT / 4; return t >= tp ? 1.1 * decay(t - tp, 7) : 0; };
   const glyphBase = new THREE.Color(C.paper), glyphHot = new THREE.Color(C.orange);
   const frustum = new THREE.Frustum();
   const cam = stage.camera;
@@ -271,9 +287,9 @@ export function buildReel(stage) {
       b.position.set(home.x + fx * (1 - land), home.y + fy * (1 - land), home.z + fz * (1 - land) + settle);
       b.rotation.set(rx * (1 - land), ry * (1 - land), rz * (1 - land));
       b.visible = t > tl - 0.42;
-      const flash = 1.6 * decay(t - tl, 6) * (t >= tl ? 1 : 0) + 0.9 * decay(t - T.impact, 3) * (t >= T.impact ? 1 : 0);
+      const flash = 1.6 * decay(t - tl, 6) * (t >= tl ? 1 : 0) + 0.9 * decay(t - T.impact, 3) * (t >= T.impact ? 1 : 0) + pulseBar(j, t);
       b.material.emissive.copy(glyphBase).lerp(glyphHot, clamp(flash));
-      b.material.emissiveIntensity = 0.22 + flash;
+      b.material.emissiveIntensity = 0.42 + flash;
     });
     const tt = ez(t, T.tile - 0.36, T.tile + 0.12, ease.lin);
     logo.tile.visible = t > T.tile - 0.36;
@@ -285,7 +301,13 @@ export function buildReel(stage) {
     const solid = t < T.scanEnd + 0.02 || t >= T.impact;
     logo.group.visible = solid;
     if (t >= T.impact) {
-      logo.bars.forEach(b => { b.position.copy(b.userData.home); b.rotation.set(0, 0, 0); b.visible = true; });
+      // sign-off: the four bars step forward in turn on the last downbeat
+      logo.bars.forEach((b, j) => {
+        b.position.copy(b.userData.home);
+        const u = clamp((t - (T.flourish + j * BEAT / 4)) / 0.34);
+        b.position.z += 0.45 * Math.sin(Math.PI * u) * (u > 0 ? 1 : 0);
+        b.rotation.set(0, 0, 0); b.visible = true;
+      });
       logo.tile.visible = true; logo.tile.position.z = 0; logo.tile.scale.setScalar(1); logo.tile.rotation.z = 0;
       const sp = spring(imp, 1.6, 4.5);
       logo.group.scale.setScalar(1.12 - 0.12 * sp);
@@ -311,7 +333,7 @@ export function buildReel(stage) {
     plates.forEach((p, j) => {
       const own = STATIONS[j].bg === C.ink ? '#17171A' : STATIONS[j].bg;
       p.material.color.set(mixHex(bg, own, over));
-      p.scale.setScalar(lerp(1, 0.66, over));
+      p.scale.setScalar(lerp(1, 0.6, over));
     });
 
     // dust
@@ -333,7 +355,7 @@ export function buildReel(stage) {
 
     // bloom
     const dark = bg === C.ink || t < 6 || (t >= T.overview && t < T.impact);
-    stage.bloom.strength = (dark ? 0.85 : 0.45) + 0.6 * decay(t - T.impact, 3) * (t >= T.impact ? 1 : 0) + 0.5 * decay(t - T.burst, 5) * (t >= T.burst ? 1 : 0);
+    stage.bloom.strength = (dark ? 0.85 : 0.45) + 0.6 * decay(t - T.impact, 3) * (t >= T.impact ? 1 : 0) + 0.3 * decay(t - T.burst, 5) * (t >= T.burst ? 1 : 0);
     stage.bloom.radius = 0.55;
     stage.scene.environmentIntensity = 0.6;
 

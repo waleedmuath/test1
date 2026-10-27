@@ -109,8 +109,10 @@ export function createOverlay() {
     // slate
     const sa = ez(t, 0.1, 0.3) * (1 - ez(t, 0.78, 0.95));
     if (sa > 0) {
-      txt(typed('JOFUNCTION', 0.12, t, 22), W / 2, H / 2 - 6, GR(500, 28), C.paper, { align: 'center', ls: 16, alpha: sa });
-      txt(typed('A MOTION REEL — 2026', 0.32, t, 40), W / 2, H / 2 + 34, MO(400, 15), C.mute, { align: 'center', ls: 5, alpha: sa });
+      txt(typed('JOFUNCTION', 0.1, t, 24), W / 2 + 8, H / 2 - 10, GR(500, 34), C.paper, { align: 'center', ls: 18, alpha: sa });
+      const rw = 220 * ease.out5(ez(t, 0.2, 0.6, ease.lin));
+      pill(W / 2 - rw / 2, H / 2 + 12, rw, 3, C.orange, sa);
+      txt(typed('A MOTION REEL — 2026', 0.34, t, 44), W / 2 + 3, H / 2 + 50, MO(400, 15), C.mute, { align: 'center', ls: 6, alpha: sa });
     }
     // bar call-outs
     const offs = [[150, -170], [-240, 120], [210, -90], [230, 70]];
@@ -285,12 +287,13 @@ export function createOverlay() {
     info.stations.forEach((p, k) => {
       const tk = 20.55 + k * 0.125;
       const s = ease.outBackHard(ez(t, tk, tk + 0.22, ease.lin));
-      const [x, y] = proj(p.clone().add(new THREE.Vector3(0, 8.5, 0)), info.cam);
+      const [x, y] = proj(p.clone().add(new THREE.Vector3(0, 7.5, 0)), info.cam);
       const st = STATIONS[k];
       chip(`${st.n}  ${st.title}${st.title2 ? ' ' + st.title2 : ''}`, x, y, { f: AR(600, 21), fg: C.ink, bg: k % 2 ? C.orange : C.paper, h: 42, pad: 16, scale: s, alpha: a });
     });
-    riseWords('سبعة أقسام. علامة واحدة.', RIGHT, 190, AR(700, 74), C.paper, 20.45, t, { size: 74, out: 23.2, stagger: 0.08 });
-    if (t > 20.7) txt(scramble('SEVEN DIVISIONS · ONE BRAND', 20.75, t), RIGHT, 236, GR(500, 19), C.orange, { align: 'right', ls: 7, alpha: 1 - ez(t, 23.2, 23.4) });
+    const title = 'سبعة أقسام. علامة واحدة.', tw = measure(title, AR(700, 64));
+    riseWords(title, W / 2 + tw / 2, 552, AR(700, 64), C.paper, 20.45, t, { size: 64, out: 22.05, stagger: 0.08 });
+    if (t > 20.7) txt(scramble('SEVEN DIVISIONS · ONE BRAND', 20.75, t), W / 2, 598, GR(500, 17), C.orange, { align: 'center', ls: 7, alpha: 1 - ez(t, 22.0, 22.2) });
   }
 
   function endCard(t) {
@@ -298,10 +301,10 @@ export function createOverlay() {
     const xr = RIGHT;
     // wordmark: جو (ink, bold) + فنكشن (burnt, regular), as on the sheet
     const e = ease.out5(ez(t, 24.2, 24.85, ease.lin));
-    const f1 = AR(700, 168), f2 = AR(400, 168);
+    const f1 = AR(700, 186), f2 = AR(400, 186);
     const w1 = measure('جو', f1), w2 = measure('فنكشن', f2);
     g.save();
-    g.beginPath(); g.rect(xr - (w1 + w2 + 20) * e, 330, (w1 + w2 + 40) * e + 20, 260); g.clip();
+    g.beginPath(); g.rect(xr - (w1 + w2 + 20) * e, 300, (w1 + w2 + 40) * e + 20, 290); g.clip();
     txt('جو', xr + (1 - e) * 60, 520, f1, C.ink, { align: 'right', rtl: true });
     txt('فنكشن', xr - w1 + (1 - e) * 120, 520, f2, C.burnt, { align: 'right', rtl: true });
     g.restore();

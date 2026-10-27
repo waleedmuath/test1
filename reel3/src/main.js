@@ -55,7 +55,7 @@ function renderFrame(t) {
   const light = luminance(info.bg) > 0.45;
   const imp = t >= T.impact ? decay(t - T.impact, 7) : 0;
   const burst = t >= T.burst ? decay(t - T.burst, 7) : 0;
-  U.uFlash.value = 0.9 * imp + 0.22 * burst;
+  U.uFlash.value = 0.9 * imp + 0.14 * burst;
   U.uFlashCol.value.fromArray(imp > burst ? paper : orange);
   U.uCA.value = 2.4 * imp + 1.8 * burst + Math.min(1.4, blur.length() * 16);
   U.uVig.value = light ? 0.05 : 0.28;

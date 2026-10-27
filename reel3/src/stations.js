@@ -148,7 +148,7 @@ export function products({ P, ids, TS, W, Wf, group }) {
     g.add(b, f);
     g.scale.setScalar(SZ);
     const col = i % 5, row = Math.floor(i / 5);
-    g.userData = { col, row, home: new THREE.Vector3((col - 2) * (SZ + GAP), 3.75 - row * (SZ + GAP), 0), fm, p };
+    g.userData = { col, row, home: new THREE.Vector3((col - 2) * (SZ + GAP) - 0.45, 3.75 - row * (SZ + GAP), 0), fm, p };
     group.add(g);
     return g;
   });
@@ -172,7 +172,7 @@ export function products({ P, ids, TS, W, Wf, group }) {
   ids.forEach((i, j) => {
     const ringA = j < n1;
     const n = ringA ? n1 : n2, jj = ringA ? j : j - n1;
-    const rx = ringA ? 4.7 : 5.3, rz = ringA ? 2.1 : 2.6, cy = 3.05, tilt = ringA ? 0.16 : -0.12;
+    const rx = ringA ? 4.4 : 5.0, rz = ringA ? 2.0 : 2.5, cy = 3.05, tilt = ringA ? 0.16 : -0.12;
     const spd = ringA ? 0.75 : -0.5;
     const tq = qe(0, 0, tilt);
     const appear = TS - 0.1 + (jj / n) * 0.45;
@@ -182,7 +182,7 @@ export function products({ P, ids, TS, W, Wf, group }) {
       const pos = new THREE.Vector3(Math.cos(a) * rx, 0, Math.sin(a) * rz).applyQuaternion(tq);
       const tang = Math.atan2(Math.cos(a) * rz, -Math.sin(a) * rx);
       const q = tq.clone().multiply(qe(0, -tang, 0));
-      return S({ p: [pos.x, cy + pos.y, pos.z - 0.4], q, h: (ringA ? 0.11 : 0.08) * grow, len: (ringA ? 0.62 : 0.38) * grow, dep: 0.1 * grow, color: ringA ? C.orange : C.paper, glow: ringA ? 2.6 : 0.5 });
+      return S({ p: [pos.x - 0.45, cy + pos.y, pos.z - 0.4], q, h: (ringA ? 0.11 : 0.08) * grow, len: (ringA ? 0.62 : 0.38) * grow, dep: 0.1 * grow, color: ringA ? C.orange : C.paper, glow: ringA ? 2.6 : 0.5 });
     };
     entry[i] = W(hidden([0, 3, -2]));
     P.set(i, appear, Wf(st));
@@ -529,7 +529,7 @@ export function automation({ P, ids, TS, W, Wf }) {
     const t0 = TS - 0.05 + k * 0.05, on = placed + 0.05 + k * 0.1;
     items.push({ t0, f: t => {
       const g = ease.outBack(ez(t, t0, t0 + 0.3, ease.lin)), lit = ez(t, on, on + 0.08);
-      return S({ p: [x, y, 0.1], len: 0.62 * g, h: 0.62 * g, dep: 1.15 * g, col: lit > 0 ? linear('#FFF1DA') : linear('#3A2A20'), glow: 2.4 * lit, rough: 0.5 });
+      return S({ p: [x, y, 0.1], len: 0.62 * g, h: 0.62 * g, dep: 1.15 * g, col: lit > 0 ? linear('#FFF1DA') : linear('#3A2A20'), glow: 1.5 * lit, rough: 0.5 });
     } });
   });
   // a little floor robot that wakes up with the house

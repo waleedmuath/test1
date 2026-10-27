@@ -520,7 +520,12 @@ for k in range(7):
 for i in range(14):
     tick(26.85 + i / 30, 0.05, 4000, 0.2)
 fm_bell(26.6, 86, 0.06, 1.5, ratio=2.0, index=1.0)
-# last hit and the tail
+# impact debris: a spray of small glassy blips
+for i in range(26):
+    blip(24.02 + rng.random() ** 2 * 0.7, mtof(rng.choice([86, 90, 93, 95, 98, 102])), 0.03, rng.uniform(-1, 1), 0.05)
+# last hit: the sonic logo once more as the four bars step forward
+for j, m in enumerate([74, 81, 85, 90]):
+    fm_bell(28.0 + j * 0.125, m + 12, 0.08, 1.4, pan=[-0.4, 0.4, -0.2, 0.2][j], rv=0.6, dl=0.4)
 kick(28.0, 0.5)
 fm_bell(28.0, 62, 0.12, 2.0, ratio=1.0, index=1.5)
 fm_bell(28.0, 74, 0.08, 2.0)

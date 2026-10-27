@@ -42,7 +42,7 @@ function tileShape() {
 export function makeLogo() {
   const group = new THREE.Group();
   const tileMat = new THREE.MeshPhysicalMaterial({ color: C.ink, roughness: 0.5, clearcoat: 1.0, clearcoatRoughness: 0.12, envMapIntensity: 0.45 });
-  const glyphMat = new THREE.MeshPhysicalMaterial({ color: C.paper, roughness: 0.5, clearcoat: 0.35, clearcoatRoughness: 0.3, emissive: new THREE.Color(C.paper), emissiveIntensity: 0.22 });
+  const glyphMat = new THREE.MeshPhysicalMaterial({ color: C.paper, roughness: 0.5, clearcoat: 0.35, clearcoatRoughness: 0.3, emissive: new THREE.Color(C.paper), emissiveIntensity: 0.42 });
   const bevel = { bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.05, bevelSegments: 3, curveSegments: 1 };
   const tileGeo = new THREE.ExtrudeGeometry(tileShape(), { depth: TILE_DEPTH - 0.12, ...bevel });
   tileGeo.translate(0, 0, -(TILE_DEPTH - 0.12) / 2);
@@ -50,8 +50,9 @@ export function makeLogo() {
   tile.castShadow = tile.receiveShadow = true;
   group.add(tile);
   const bars = LOGO.bars.map(b => {
-    const g = new THREE.ExtrudeGeometry(barShape(b), { depth: GLYPH_DEPTH - 0.1, ...bevel, bevelThickness: 0.05, bevelSize: 0.04 });
-    g.translate(0, 0, -(GLYPH_DEPTH - 0.1) / 2);
+    const extra = b.id === 'A' ? 0.03 : 0;
+    const g = new THREE.ExtrudeGeometry(barShape(b), { depth: GLYPH_DEPTH - 0.1 + extra, ...bevel, bevelThickness: 0.05, bevelSize: 0.04 });
+    g.translate(0, 0, -(GLYPH_DEPTH - 0.1 - extra) / 2);
     // pivot each bar on its own centre so it can fly in and spin
     const [x0, y0, x1, y1] = b.rect;
     const cx = (Math.min(x0, b.cap[0] - (b.dir === 'left' ? LOGO.r : 0)) + Math.max(x1, b.cap[0] + (b.dir === 'right' ? LOGO.r : 0))) / 2;
