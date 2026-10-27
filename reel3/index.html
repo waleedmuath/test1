@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JoFunction — Motion Reel 3D</title>
+<style>
+  @font-face { font-family: 'Plex Arabic'; font-weight: 400; font-display: block; src: url(fonts/PlexArabic-400-ar.woff2) format('woff2'); unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+200C-200E, U+2010-2011, U+FB50-FDFF, U+FE70-FEFF; }
+  @font-face { font-family: 'Plex Arabic'; font-weight: 500; font-display: block; src: url(fonts/PlexArabic-500-ar.woff2) format('woff2'); unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+200C-200E, U+2010-2011, U+FB50-FDFF, U+FE70-FEFF; }
+  @font-face { font-family: 'Plex Arabic'; font-weight: 600; font-display: block; src: url(fonts/PlexArabic-600-ar.woff2) format('woff2'); unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+200C-200E, U+2010-2011, U+FB50-FDFF, U+FE70-FEFF; }
+  @font-face { font-family: 'Plex Arabic'; font-weight: 700; font-display: block; src: url(fonts/PlexArabic-700-ar.woff2) format('woff2'); unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+200C-200E, U+2010-2011, U+FB50-FDFF, U+FE70-FEFF; }
+  @font-face { font-family: 'Plex Arabic'; font-weight: 400; font-display: block; src: url(fonts/PlexArabic-400-lat.woff2) format('woff2'); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: 'Plex Arabic'; font-weight: 500; font-display: block; src: url(fonts/PlexArabic-500-lat.woff2) format('woff2'); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: 'Plex Arabic'; font-weight: 600; font-display: block; src: url(fonts/PlexArabic-600-lat.woff2) format('woff2'); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: 'Plex Arabic'; font-weight: 700; font-display: block; src: url(fonts/PlexArabic-700-lat.woff2) format('woff2'); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: 'Grotesk'; font-weight: 400; font-display: block; src: url(fonts/Grotesk-400.woff2) format('woff2'); }
+  @font-face { font-family: 'Grotesk'; font-weight: 500; font-display: block; src: url(fonts/Grotesk-500.woff2) format('woff2'); }
+  @font-face { font-family: 'Grotesk'; font-weight: 700; font-display: block; src: url(fonts/Grotesk-700.woff2) format('woff2'); }
+  @font-face { font-family: 'Plex Mono'; font-weight: 400; font-display: block; src: url(fonts/PlexMono-400.woff2) format('woff2'); }
+  @font-face { font-family: 'Plex Mono'; font-weight: 500; font-display: block; src: url(fonts/PlexMono-500.woff2) format('woff2'); }
+  @font-face { font-family: 'Plex Mono'; font-weight: 600; font-display: block; src: url(fonts/PlexMono-600.woff2) format('woff2'); }
+  html, body { margin: 0; background: #0B0B0C; color: #FAF8F6; font: 13px 'Plex Mono', monospace; }
+  main { max-width: 1280px; margin: 24px auto; padding: 0 16px; }
+  canvas { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; border-radius: 8px; }
+  .bar { display: flex; gap: 12px; align-items: center; margin-top: 12px; }
+  .bar input { flex: 1; accent-color: #FF5C00; }
+  .bar button { font: inherit; font-weight: 600; background: #FF5C00; color: #0B0B0C; border: 0; border-radius: 99px; padding: 8px 18px; cursor: pointer; }
+  body.capture main { max-width: none; margin: 0; padding: 0; }
+  body.capture canvas { width: 1920px; height: 1080px; border-radius: 0; }
+  body.capture .bar { display: none; }
+</style>
+<script type="importmap">{ "imports": { "three": "./node_modules/three/build/three.module.js", "three/addons/": "./node_modules/three/examples/jsm/" } }</script>
+</head>
+<body>
+<main>
+  <canvas id="c" width="1920" height="1080"></canvas>
+  <div class="bar"><button id="play" type="button">Play</button><input id="scrub" type="range" min="0" max="30" step="0.001" value="0" aria-label="Scrub"><span id="tc">0.00</span></div>
+</main>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
