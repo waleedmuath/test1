@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faz3at E5tebar Reel</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+  :root { --ink: #0B0B0C; --paper: #F9F8F6; --orange: #FF5C00; --mute: #8B857D; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; background: var(--ink); color: var(--paper); font-family: 'IBM Plex Mono', ui-monospace, monospace; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 16px; min-height: 100vh; }
+  .frame { width: min(100%, calc((100vh - 90px) * 9 / 16)); }
+  #stage { position: relative; aspect-ratio: 9 / 16; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+  canvas { display: block; width: 100%; height: 100%; cursor: pointer; }
+  #overlay { position: absolute; left: 50%; transform: translateX(-50%); bottom: 22px; padding: 10px 18px; border-radius: 999px; white-space: nowrap;
+    background: var(--orange); color: var(--ink); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; cursor: pointer; transition: opacity .3s; }
+  #overlay.hide { opacity: 0; pointer-events: none; }
+  .bar { display: flex; align-items: center; gap: 10px; font-size: 12px; letter-spacing: .08em; color: var(--mute); }
+  button { font: inherit; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); background: var(--paper); border: 0; border-radius: 999px; padding: 8px 14px; cursor: pointer; min-width: 74px; }
+  button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+  input[type=range] { flex: 1; min-width: 0; accent-color: var(--orange); }
+  .lang { display: flex; gap: 4px; }
+  .lang a { color: var(--mute); text-decoration: none; padding: 6px 10px; border-radius: 999px; border: 1px solid #2a2a2d; }
+  .lang a[aria-current] { color: var(--ink); background: var(--orange); border-color: var(--orange); }
+  #tc { color: var(--paper); min-width: 44px; text-align: right; font-variant-numeric: tabular-nums; }
+  body.capture { padding: 0; display: block; background: #000; }
+  body.capture .frame { width: 1080px; }
+  body.capture #stage { width: 1080px; height: 1920px; border-radius: 0; box-shadow: none; }
+  body.capture .bar, body.capture #overlay { display: none; }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div id="stage">
+      <canvas id="c" width="1080" height="1920" aria-label="Faz3at E5tebar reel"></canvas>
+      <div id="overlay" role="button" tabindex="0">▶ Play with sound</div>
+    </div>
+  </div>
+  <div class="frame bar">
+    <button id="play" type="button">Play</button>
+    <span id="tc">00.00</span>
+    <input id="scrub" type="range" min="0" max="30" step="0.001" value="0" aria-label="Scrub timeline">
+    <nav class="lang" aria-label="Language"><a href="?lang=ar" data-lang="ar">عربي</a><a href="?lang=en" data-lang="en">EN</a></nav>
+  </div>
+  <script src="js/core.js"></script>
+  <script src="js/copy.js"></script>
+  <script src="js/scenes_a.js"></script>
+  <script src="js/scenes_b.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
