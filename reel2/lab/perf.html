@@ -1,0 +1,45 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script></head>
+<body><script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+const W = 1920, H = 1080;
+const AA = new URLSearchParams(location.search).has('aa');
+const NOBLOOM = new URLSearchParams(location.search).has('nobloom');
+const renderer = new THREE.WebGLRenderer({ antialias: AA, preserveDrawingBuffer: true });
+renderer.setSize(W, H); renderer.setPixelRatio(1);
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color('#07070a');
+const cam = new THREE.PerspectiveCamera(35, W / H, 0.1, 100); cam.position.set(0, 0, 10);
+for (let i = 0; i < 30; i++) {
+  const cv = document.createElement('canvas'); cv.width = 1024; cv.height = 256;
+  const g = cv.getContext('2d'); g.fillStyle = '#fff'; g.font = '700 120px sans-serif'; g.fillText('PLANE ' + i, 20, 160);
+  const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(4, 1), new THREE.MeshBasicMaterial({ map: tex, transparent: true }));
+  m.position.set((i % 6 - 2.5) * 3, (Math.floor(i / 6) - 2) * 1.6, -i * 0.3); scene.add(m);
+}
+const pg = new THREE.BufferGeometry(); const N = 6000; const pos = new Float32Array(N * 3);
+for (let i = 0; i < N * 3; i++) pos[i] = (Math.random() - 0.5) * 30;
+pg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+scene.add(new THREE.Points(pg, new THREE.PointsMaterial({ color: '#ff7a1a', size: 0.06 })));
+const knot = new THREE.Mesh(new THREE.TorusKnotGeometry(1.2, 0.35, 200, 32), new THREE.MeshStandardMaterial({ color: '#ff5c00', metalness: 0.6, roughness: 0.25, emissive: '#331100' }));
+scene.add(knot); scene.add(new THREE.DirectionalLight('#fff', 3)); scene.add(new THREE.AmbientLight('#555'));
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, cam));
+if (!NOBLOOM) composer.addPass(new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.8, 0.6, 0.6));
+composer.addPass(new ShaderPass({ uniforms: { tDiffuse: { value: null }, t: { value: 0 } },
+  vertexShader: 'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float t; varying vec2 vUv;
+  float h(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
+  void main(){ vec2 d=vUv-0.5; float r=dot(d,d); vec3 c; c.r=texture2D(tDiffuse,vUv+d*r*0.02).r; c.g=texture2D(tDiffuse,vUv).g; c.b=texture2D(tDiffuse,vUv-d*r*0.02).b;
+  c*=1.0-r*0.9; c+= (h(vUv*1000.0+t)-0.5)*0.04; gl_FragColor=vec4(c,1.0);}` }));
+composer.addPass(new OutputPass());
+window.frame = (t) => { knot.rotation.set(t, t * 0.7, 0); cam.position.x = Math.sin(t) * 2; cam.lookAt(0, 0, 0); composer.render(); };
+window.info = () => { const gl = renderer.getContext(); const dbg = gl.getExtension('WEBGL_debug_renderer_info'); return { webgl2: renderer.capabilities.isWebGL2, renderer: dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : '?', maxTex: renderer.capabilities.maxTextureSize }; };
+window.sync = () => { const gl = renderer.getContext(); const px = new Uint8Array(4); gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,px); return px[0]; };
+window.READY = true;
+</script></body></html>
