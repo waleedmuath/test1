@@ -1,14 +1,13 @@
 {
-  "name": "reel2",
+  "name": "jofunction-reel2",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "description": "JoFunction motion reel — a 30 s WebGL showreel in English and Arabic, rendered offline with an original synthesised score",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "render:en": "node tools/render.cjs --lang en",
+    "render:ar": "node tools/render.cjs --lang ar",
+    "stills": "node tools/stills.cjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "three": "^0.169.0"
   }
