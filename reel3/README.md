@@ -50,14 +50,16 @@ screen-space motion blur, and the background color script shifts on the downbeat
   with numpy/scipy and placed on the picture's clock. `tools/master.mjs` masters it to −14 LUFS
   with a −1 dBTP ceiling.
 - `tools/render.mjs` — renders the reel in parallel headless Chromium (SwiftShader WebGL)
-  workers that stream raw frames into ffmpeg, then muxes the score.
+  workers that stream raw frames into ffmpeg. `tools/finalize.mjs` does the delivery encode
+  (H.264, CRF 21, about 21 MB) with the score, and generates the poster and storyboard.
 
 ## Run it
 
 ```bash
 npm install
 npm run score && node tools/master.mjs       # out/score.wav
-npm run render                                # out/jofunction-reel-3d.mp4 (~25 min on 4 CPU cores)
+node tools/render.mjs --audio "" --out out/.patch/master.mp4   # 1800 frames, ~36 min on 4 CPU cores
+node tools/finalize.mjs                       # → out/jofunction-reel-3d.mp4 + poster + storyboard
 node tools/render.mjs --fps 30 --scale 0.5    # quick half-res preview
 node tools/stills.mjs out/stills 3.5 9 16.8 --sheet sheet.jpg
 ```

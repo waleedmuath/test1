@@ -3,7 +3,7 @@
 // recalled into the monogram for the end card. Everything is a pure function
 // of time t.
 import * as THREE from 'three';
-import { ease, ez, clamp, lerp, rng, decay, spring, fbm, mixHex, cubic, BEAT, b2t } from './util.js';
+import { ease, ez, clamp, lerp, rng, decay, spring, fbm, mixHex, cubic, luminance, BEAT, b2t } from './util.js';
 import { C, STATIONS, LOGO } from './brand.js';
 import { Pills, S, hidden, linear } from './pills.js';
 import { makeLogo, packLayout, L, LOGO_K, GLYPH_Z, GLYPH_DEPTH, TILE_DEPTH, LOGO_SIZE, LOGO_LIFT } from './logo.js';
@@ -354,8 +354,9 @@ export function buildReel(stage) {
     }
 
     // bloom
-    const dark = bg === C.ink || t < 6 || (t >= T.overview && t < T.impact);
-    stage.bloom.strength = (dark ? 0.85 : 0.45) + 0.6 * decay(t - T.impact, 3) * (t >= T.impact ? 1 : 0) + 0.3 * decay(t - T.burst, 5) * (t >= T.burst ? 1 : 0);
+    // bloom follows the background's darkness continuously, so crossfades never pop
+    const dark = clamp((0.42 - luminance(bg)) / 0.36);
+    stage.bloom.strength = lerp(0.45, 0.85, dark) + 0.6 * decay(t - T.impact, 3) * (t >= T.impact ? 1 : 0) + 0.3 * decay(t - T.burst, 5) * (t >= T.burst ? 1 : 0);
     stage.bloom.radius = 0.55;
     stage.scene.environmentIntensity = 0.6;
 

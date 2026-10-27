@@ -428,8 +428,8 @@ export function ai({ P, ids, TS, W, Wf }) {
       const band = Math.exp(-(((n2.dot(axisW) - phase) / 0.16) ** 2));
       const spark = Math.max(0, Math.sin(j * 12.9898 + t * 7)) ** 24;
       const g = band * 3.2 + spark * 2.0;
-      const col = [lerp(0.55, 1.0, clamp(g)), lerp(0.53, 0.105, clamp(g)), lerp(0.5, 0.0, clamp(g))];
-      return S({ p: [n2.x * rad, cy + n2.y * rad, n2.z * rad], q: q.clone().multiply(baseQ), h: 0.11 * clamp(born * 1.5), len: 0.44 * clamp(born * 1.5), dep: 0.11, col, glow: g * 1.2, rough: 0.3 });
+      const col = [lerp(0.55, 1.0, clamp(g)), lerp(0.53, 0.07, clamp(g)), lerp(0.5, 0.0, clamp(g))];
+      return S({ p: [n2.x * rad, cy + n2.y * rad, n2.z * rad], q: q.clone().multiply(baseQ), h: 0.11 * clamp(born * 1.5), len: 0.44 * clamp(born * 1.5), dep: 0.11, col, glow: g * 0.9, rough: 0.3 });
     };
     entry[i] = W(hidden([0, cy, 0]));
     P.set(i, t0, Wf(st));
@@ -444,7 +444,7 @@ export function ai({ P, ids, TS, W, Wf }) {
       const v = new THREE.Vector3(Math.cos(a) * 3.4, 0, Math.sin(a) * 3.4).applyQuaternion(tq);
       const tangent = new THREE.Vector3(-Math.sin(a), 0, Math.cos(a)).applyQuaternion(tq);
       const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(1, 0, 0), tangent);
-      return S({ p: [v.x, cy + v.y, v.z], q, h: 0.16 * g, len: 0.9 * g, dep: 0.16, color: C.orange, glow: 3.5 });
+      return S({ p: [v.x, cy + v.y, v.z], q, h: 0.16 * g, len: 0.9 * g, dep: 0.16, color: C.orange, glow: 1.3 });
     };
     entry[i] = W(hidden([0, cy, 0]));
     P.set(i, t0, Wf(st));
@@ -529,7 +529,7 @@ export function automation({ P, ids, TS, W, Wf }) {
     const t0 = TS - 0.05 + k * 0.05, on = placed + 0.05 + k * 0.1;
     items.push({ t0, f: t => {
       const g = ease.outBack(ez(t, t0, t0 + 0.3, ease.lin)), lit = ez(t, on, on + 0.08);
-      return S({ p: [x, y, 0.1], len: 0.62 * g, h: 0.62 * g, dep: 1.15 * g, col: lit > 0 ? linear('#FFF1DA') : linear('#3A2A20'), glow: 1.5 * lit, rough: 0.5 });
+      return S({ p: [x, y, 0.1], len: 0.62 * g, h: 0.62 * g, dep: 1.15 * g, col: lit > 0 ? linear('#FFF1DA') : linear('#3A2A20'), glow: 1.1 * lit, rough: 0.5 });
     } });
   });
   // a little floor robot that wakes up with the house

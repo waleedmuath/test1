@@ -291,9 +291,9 @@ export function createOverlay() {
       const st = STATIONS[k];
       chip(`${st.n}  ${st.title}${st.title2 ? ' ' + st.title2 : ''}`, x, y, { f: AR(600, 21), fg: C.ink, bg: k % 2 ? C.orange : C.paper, h: 42, pad: 16, scale: s, alpha: a });
     });
-    const title = 'سبعة أقسام. علامة واحدة.', tw = measure(title, AR(700, 64));
-    riseWords(title, W / 2 + tw / 2, 552, AR(700, 64), C.paper, 20.45, t, { size: 64, out: 22.05, stagger: 0.08 });
-    if (t > 20.7) txt(scramble('SEVEN DIVISIONS · ONE BRAND', 20.75, t), W / 2, 598, GR(500, 17), C.orange, { align: 'center', ls: 7, alpha: 1 - ez(t, 22.0, 22.2) });
+    const title = 'سبعة أقسام. علامة واحدة.', tw = measure(title, AR(700, 46));
+    riseWords(title, W / 2 + tw / 2, 556, AR(700, 46), C.paper, 20.45, t, { size: 46, out: 22.05, stagger: 0.08 });
+    if (t > 20.7) txt(scramble('SEVEN DIVISIONS · ONE BRAND', 20.75, t), W / 2, 592, GR(500, 14), C.orange, { align: 'center', ls: 6, alpha: 1 - ez(t, 22.0, 22.2) });
   }
 
   function endCard(t) {
