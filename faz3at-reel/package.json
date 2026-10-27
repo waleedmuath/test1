@@ -4,7 +4,7 @@
   "private": true,
   "description": "30-second vertical motion reel for Faz3at E5tebar by JoFunction, rendered from code (Arabic + English).",
   "scripts": {
-    "serve": "npx --yes http-server -p 8080 -c-1 .",
+    "serve": "node tools/serve.cjs",
     "render": "node tools/render.cjs",
     "stills": "node tools/stills.cjs"
   },

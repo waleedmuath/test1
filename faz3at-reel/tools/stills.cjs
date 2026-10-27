@@ -1,36 +1,32 @@
 'use strict';
-// Full-resolution stills at given seconds, plus an optional contact sheet.
-//   node tools/stills.cjs <outDir> <t1> <t2> … [--lang en] [--samples 4] [--sheet sheet.jpg] [--cols 6]
-const fs = require('fs');
-const path = require('path');
-const { execFileSync } = require('child_process');
-const { openReel } = require('./browser.cjs');
+// Stills at given seconds (full resolution), or a labelled contact sheet with --sheet.
+//   node tools/stills.cjs <dir> <seconds…> [--lang en] [--samples 4] [--sheet file.jpg]
+const fs = require('node:fs');
+const path = require('node:path');
+const { execFileSync } = require('node:child_process');
+const { launch } = require('./browser.cjs');
 
-const args = process.argv.slice(2);
-const opt = (k, d) => { const i = args.indexOf(k); if (i < 0) return d; const v = args[i + 1]; args.splice(i, 2); return v; };
-const LANG = opt('--lang', 'ar'), SAMPLES = +opt('--samples', 1), SHEET = opt('--sheet', null), COLS = +opt('--cols', 6);
-const [outDir, ...times] = args;
+const [, , ...argv] = process.argv;
+const take = (name, dflt) => { const i = argv.indexOf(name); if (i < 0) return dflt; const v = argv[i + 1]; argv.splice(i, 2); return v; };
+const LANG = take('--lang', 'ar'), SAMPLES = Number(take('--samples', 1)), SHEET = take('--sheet', null);
+const [dir, ...secs] = argv;
+
 (async () => {
-  fs.mkdirSync(outDir, { recursive: true });
-  const { browser, page } = await openReel({ query: `capture=1&lang=${LANG}` });
+  fs.mkdirSync(dir, { recursive: true });
+  const { pages: [page], close } = await launch(LANG, 1);
   const files = [];
-  for (const t of times.map(Number)) {
-    const url = await page.evaluate(({ t, s }) => { window.renderAt(t, s); return document.getElementById('c').toDataURL('image/png'); }, { t, s: SAMPLES });
-    const f = path.join(outDir, `${LANG}-${t.toFixed(2).padStart(5, '0')}.png`);
-    fs.writeFileSync(f, Buffer.from(url.split(',')[1], 'base64'));
-    files.push(f);
+  for (const t of secs.map(Number)) {
+    const url = await page.evaluate(([t, s]) => { window.renderAt(t, s); return document.getElementById('reel').toDataURL('image/png'); }, [t, SAMPLES]);
+    const file = path.join(dir, `${LANG}-${t.toFixed(2)}.png`);
+    fs.writeFileSync(file, Buffer.from(url.split(',')[1], 'base64'));
+    files.push(file);
   }
-  await browser.close();
-  if (SHEET) {
-    const rows = Math.ceil(files.length / COLS);
-    const inputs = files.flatMap(f => ['-i', f]);
-    const scale = files.map((_, i) => `[${i}:v]scale=270:480,drawtext=text='${times[i]}':x=8:y=8:fontsize=18:fontcolor=white:box=1:boxcolor=black@0.6[v${i}]`).join(';');
-    const pad = [];
-    for (let i = files.length; i < rows * COLS; i++) pad.push(`color=c=black:s=270x480:d=1[v${i}]`);
-    const all = Array.from({ length: rows * COLS }, (_, i) => `[v${i}]`).join('');
-    const layout = Array.from({ length: rows * COLS }, (_, i) => `${(i % COLS) * 270}_${Math.floor(i / COLS) * 480}`).join('|');
-    const fc = [scale, ...pad, `${all}xstack=inputs=${rows * COLS}:layout=${layout}`].join(';');
-    execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', ...inputs, '-filter_complex', fc, '-frames:v', '1', '-q:v', '3', SHEET]);
-    console.log(SHEET);
-  } else console.log(files.join('\n'));
-})().catch(e => { console.error(e); process.exit(1); });
+  await close();
+  if (!SHEET) { console.log(files.join('\n')); return; }
+  const cols = Math.min(6, files.length), rows = Math.ceil(files.length / cols);
+  const cells = files.map((_, i) => `[${i}:v]scale=270:480,drawtext=text='${secs[i]}':x=8:y=8:fontsize=18:fontcolor=white:box=1:boxcolor=black@0.6[c${i}]`);
+  const layout = files.map((_, i) => `${(i % cols) * 270}_${Math.floor(i / cols) * 480}`).join('|');
+  const graph = `${cells.join(';')};${files.map((_, i) => `[c${i}]`).join('')}xstack=inputs=${files.length}:layout=${layout}:fill=black`;
+  execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', ...files.flatMap(f => ['-i', f]), '-filter_complex', graph, '-frames:v', '1', '-q:v', '3', SHEET]);
+  console.log(SHEET, `(${cols}×${rows})`);
+})().catch(err => { console.error(err); process.exitCode = 1; });

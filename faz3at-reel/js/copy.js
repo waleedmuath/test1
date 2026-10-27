@@ -23,7 +23,6 @@ const COPY = {
     qText: 'أوجد حلول المعادلة',
     check: 'تحقّق',
     correct: 'إجابة صحيحة!',
-    noSkip: 'لا يمكن تخطّي الأسئلة',
     // 03 — gamification
     gameH: ['ذاكر', 'كأنك تلعب'],
     level: 'المستوى',
@@ -82,7 +81,6 @@ const COPY = {
     qText: 'Solve the equation',
     check: 'Check',
     correct: 'Correct!',
-    noSkip: 'No skipping questions',
     gameH: ['Study like', "it's a game."],
     level: 'Level',
     levelUp: 'LEVEL UP!',

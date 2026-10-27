@@ -1,11 +1,11 @@
 'use strict';
 // Storyboard (6×2 contact sheet) and poster frame straight from a rendered cut, motion blur included.
 //   node tools/storyboard.cjs [--lang ar|en]
-const path = require('path');
-const { execFileSync } = require('child_process');
+const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 const { ROOT } = require('./browser.cjs');
 
-const args = process.argv.slice(2);
+const [, , ...args] = process.argv;
 const i = args.indexOf('--lang');
 const LANG = i >= 0 ? args[i + 1] : 'ar';
 const SRC = path.join(ROOT, `out/faz3at-e5tebar-reel-${LANG}.mp4`);

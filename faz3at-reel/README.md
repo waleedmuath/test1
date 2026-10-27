@@ -3,7 +3,8 @@
 A 30-second vertical motion-design reel for **Faz3at E5tebar**, the gamified exam-prep platform by
 JoFunction. It comes in two matching cuts, Arabic (RTL) and English. Both are built in the brand system: orange
 `#FF5C00`, ink `#0B0B0C`, paper `#F9F8F6`, and peach `#FFC89F`, the notification dot from the app icon.
-Both logos are redrawn as vectors from the supplied artwork. Every hit lands on an original 120 BPM score.
+Both logos are redrawn as vectors, measured from the supplied artwork. Every hit lands on an original 120 BPM score.
+The project is standalone: it shares no assets or code with the earlier `showreel/` folder.
 
 **Watch:**
 - Arabic cut: [`out/faz3at-e5tebar-reel-ar.mp4`](out/faz3at-e5tebar-reel-ar.mp4)
@@ -40,7 +41,11 @@ radial chromatic aberration on the hits, glow, film grain and particles.
 
 ## Score
 
-The soundtrack is synthesized from scratch in Web Audio (`js/audio.js`), with no samples. The hook sits on a
+The soundtrack comes from a small offline synthesizer written in plain JavaScript (`js/audio.js`), with no
+samples. Every voice is computed sample by sample: band-limited saws and squares, Karplus–Strong plucked strings,
+FM bells, synthesized drums, and biquad filters. The buses run through a Freeverb-style reverb and a ping-pong
+delay, the music ducks under every kick, and the master is set to −14 LUFS (gated, BS.1770-style) with a
+look-ahead peak limiter. The hook sits on a
 D-minor drone with a ticking clock and three cinematic *braams*. It resolves to D major when help arrives, and
 the groove drops when the icon lands. The sonic logo is a rising D-major chime: it plays as the checkmark
 draws and again on the end card. On top sits UI sound design: taps, coins, the correct-answer chime, the
@@ -50,14 +55,15 @@ constants as the picture.
 ## Run it
 
 ```bash
-npm install          # only needed for rendering (or use a global Playwright)
-npm run serve        # then open http://localhost:8080 — player with sound, scrubber, space to play, AR/EN switch
-npm run render                    # → out/faz3at-e5tebar-reel-ar.mp4 (4 workers, ~4–5 min)
+npm install          # Playwright, for rendering (a global install also works)
+npm run serve        # then open http://127.0.0.1:8080 — player with sound, scrubber, space to play, AR/EN switch
+npm run render                    # → out/faz3at-e5tebar-reel-ar.mp4 (4 pages in parallel, ~5 min)
 npm run render -- --lang en       # → out/faz3at-e5tebar-reel-en.mp4
 npm run stills -- out/stills 3.6 10.3 27 --lang en   # full-res stills (add --sheet sheet.jpg for a contact sheet)
 ```
 
-The page has to be served over HTTP so the local fonts load. Rendering needs `ffmpeg` on the PATH.
+Render flags: `--pages 4`, `--samples 4` (motion-blur sub-frames), `--crf 16`, `--audio-only`.
+Rendering needs `ffmpeg` on the PATH. The score itself takes a few seconds to compute.
 
 ## Structure
 
@@ -67,10 +73,13 @@ js/core.js          engine: easing, kinetic type, RTL mirroring, logos, icons, F
 js/copy.js          every on-screen line, Arabic and English
 js/scenes_a.js      hook + logo, learning path, lesson, gamification
 js/scenes_b.js      exams, games, toolkit, curricula, end card, the edit
-js/audio.js         the score and sound design
+js/audio.js         offline synth: score, sound design, reverb/delay, sidechain, loudness + limiter
 js/main.js          player + capture hooks
-tools/render.cjs    offline render: score → loudness → frames → ffmpeg segments → MP4
-fonts/              Alexandria, Space Grotesk, IBM Plex Mono (SIL OFL), KaTeX Main/Math (MIT)
+tools/browser.cjs   local HTTP server + headless Chromium capture pages
+tools/render.cjs    score → WAV, then frames from parallel pages piped into one ffmpeg encode
+tools/stills.cjs    full-res stills and contact sheets · tools/storyboard.cjs  storyboard + poster from a cut
+tools/serve.cjs     local player server
+fonts/              Alexandria, JetBrains Mono (SIL OFL), KaTeX Main/Math (MIT)
 ```
 
 Everything is a pure function of time, so the live player and the export are frame-identical.
